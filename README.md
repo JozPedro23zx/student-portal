@@ -6,7 +6,7 @@ This project is a development system of school management using NestJS that was 
 ### Roadmap:
 
 
- - [ ] Config eviroment
+ - [x] Config eviroment
  - [ ] Create first aggregator to student
  - Crate entity
  - Define domain validators to student
