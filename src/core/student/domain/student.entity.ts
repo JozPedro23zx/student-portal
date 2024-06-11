@@ -1,6 +1,7 @@
 import BaseEntity from "@core/@shared/domain/entity/base-entity";
 import { Uuid } from "@core/@shared/domain/value-object/uuid.vo";
 import { Address } from "./value-object/address.vo";
+import { StudentValidatorFactory } from "./student.valitator";
 
 export type StudentProps = {
     id?: Uuid;
@@ -46,9 +47,14 @@ export class Student extends  BaseEntity{
         this.phone_number = number;
     }
 
+    validation(){
+        const validator = StudentValidatorFactory.create();
+        validator.validate(this);
+    }
+
     toJSON(){
         return {
-            id: this.uuid.id,
+            id: this.entityId.id,
             first_name: this.first_name,
             last_name: this.last_name,
             date_of_birth: this.date_of_birth,

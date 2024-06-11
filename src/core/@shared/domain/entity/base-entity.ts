@@ -11,7 +11,7 @@ export default class BaseEntity{
         this._updatedAt = updatedAt ?? new Date();
     }
 
-    get uuid(): Uuid{
+    get entityId(): Uuid{
         return this._id;
     }
 
@@ -23,7 +23,7 @@ export default class BaseEntity{
         return this._updatedAt;
     }
 
-    set updatedAt(updatedAt: Date) {
+    set entityUpdated(updatedAt: Date) {
         this._updatedAt = updatedAt;
     }
 }
