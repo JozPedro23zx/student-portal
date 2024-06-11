@@ -8,7 +8,7 @@ This project is a development system of school management using NestJS that was 
 
  - [x] Config eviroment
  - [ ] Create first aggregator to student
- - Crate entity
+ - <s>Crate entity</s>
  - Define domain validators to student
  - Create tests
  - [ ] Create repository
