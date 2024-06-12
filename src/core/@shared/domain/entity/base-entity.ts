@@ -6,7 +6,7 @@ export default class BaseEntity{
     private _updatedAt: Date;
 
     constructor(id?: Uuid, createdAt?: Date, updatedAt?: Date,){
-        this._id = id;
+        this._id = id ?? new Uuid();
         this._createdAt = createdAt ?? new Date();
         this._updatedAt = updatedAt ?? new Date();
     }
@@ -23,7 +23,7 @@ export default class BaseEntity{
         return this._updatedAt;
     }
 
-    set entityUpdated(updatedAt: Date) {
+    set newUpdatedAt(updatedAt: Date) {
         this._updatedAt = updatedAt;
     }
 }

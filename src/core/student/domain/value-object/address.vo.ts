@@ -2,13 +2,13 @@ import { ValueObject } from "@core/@shared/domain/value-object/value-object";
 
 type AddressProps = {
     street: string;
-    number: string;
+    number: number;
     city: string;
 }
 
 export class Address extends ValueObject{
     private _street: string;
-    private _number: string;
+    private _number: number;
     private _city: string;
 
     constructor(props: AddressProps){
@@ -22,7 +22,7 @@ export class Address extends ValueObject{
         return this._street
     }
 
-    get number(): string{
+    get number(): number{
         return this._number
     }
 
