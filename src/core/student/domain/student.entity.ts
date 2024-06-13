@@ -33,12 +33,12 @@ export class Student extends  BaseEntity{
     changeName(first?: string, last?: string): void{
         this.first_name = first ? first : this.first_name;
         this.last_name = last ? last : this.last_name;
-        this.validation(["name"])
+        this.validate(["name"])
     }
 
     changeBirthday(date: Date){
         this.date_of_birth = date;
-        this.validation(["date"])
+        this.validate(["date"])
     }
 
     changeAddress(address: Address){
@@ -49,7 +49,7 @@ export class Student extends  BaseEntity{
         this.phone_number = number;
     }
 
-    validation(fields: string[]){
+    validate(fields?: string[]){
         const validator = StudentValidatorFactory.create();
         const err = validator.validate(this, fields);
         if (err) {

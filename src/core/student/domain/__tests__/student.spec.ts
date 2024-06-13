@@ -5,7 +5,7 @@ import { ValidationError } from "class-validator";
 
 describe('Student unit tests', ()=>{
     beforeEach(()=>{
-        Student.prototype.validation = jest.fn().mockImplementation(Student.prototype.validation);
+        Student.prototype.validate = jest.fn().mockImplementation(Student.prototype.validate);
     })
 
     describe('Constructor of Stundet', ()=>{
@@ -59,7 +59,7 @@ describe('Student unit tests', ()=>{
     
             expect(student.first_name).toBe("Jony");
             expect(student.last_name).toBe("Rich");
-            expect(Student.prototype.validation).toHaveBeenCalledTimes(1);
+            expect(Student.prototype.validate).toHaveBeenCalledTimes(1);
         })
 
         test("change updatedAt", ()=>{
@@ -84,7 +84,7 @@ describe('Student unit tests', ()=>{
             expect(student.first_name).toBe("Jony");
             expect(student.last_name).toBe("Rich");
             expect(student.updatedAt).not.toBe(legacyUpdateAt);
-            expect(Student.prototype.validation).toHaveBeenCalledTimes(1);
+            expect(Student.prototype.validate).toHaveBeenCalledTimes(1);
         })
     
         test("change student date", ()=>{
@@ -107,7 +107,7 @@ describe('Student unit tests', ()=>{
             student.changeBirthday(date2);
     
             expect(student.date_of_birth).toBe(date2);
-            expect(Student.prototype.validation).toHaveBeenCalledTimes(1);
+            expect(Student.prototype.validate).toHaveBeenCalledTimes(1);
         })
     
         test("change student address", ()=>{
@@ -179,7 +179,7 @@ describe('Student unit tests', ()=>{
             let student = new Student(inputStudentProps);
 
             expect(() => {
-                student.validation(["date"]);
+                student.validate(["date"]);
               }).toThrow(ValidationError[0]);
         })
 
@@ -201,7 +201,7 @@ describe('Student unit tests', ()=>{
             let student = new Student(inputStudentProps);
 
             expect(() => {
-                student.validation(["name"]);
+                student.validate(["name"]);
               }).toThrow(ValidationError[0]);
         })
     })

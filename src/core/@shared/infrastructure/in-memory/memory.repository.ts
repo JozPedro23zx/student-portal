@@ -18,22 +18,22 @@ export abstract class InMemoryRepository<E extends BaseEntity> implements IRepos
         this.entities[index] = entity;
     }
 
-    async delete(id: Uuid): Promise<void> {
-        const index = this.entities.findIndex((e)=> e.entityId.equals(id));
+    async delete(uuid: Uuid): Promise<void> {
+        const index = this.entities.findIndex((e)=> e.entityId.equals(uuid));
         if (index === -1){
             throw new Error("Object not found");
         }
         this.entities.splice(index, 1);
     }
 
-    async find(id: Uuid): Promise<E> {
-        const item = this.entities.find((e) => item.entityId.equals(id));
+    async find(uuid: Uuid): Promise<E> {
+        const item = this.entities.find((e) => item.entityId.equals(uuid));
         return item;
     }
 
-    async findByIds(ids: Uuid[]): Promise<E[]> {
+    async findByIds(uuids: Uuid[]): Promise<E[]> {
         return this.entities.filter((e)=>{
-            return ids.some((id) => e.entityId.equals(id));
+            return uuids.some((id) => e.entityId.equals(id));
         });
     }
 
