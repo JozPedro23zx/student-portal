@@ -12,10 +12,14 @@ This project is a development system of school management using NestJS that was 
  - <s>Define domain validators to student</s>
  - <s>Create tests</s>
  - [ ] Create repository
- - Use unit of work
  - [ ] Create usecases
  - Define syntax validators to input and output
  - [ ] Create controllers and services
  - Use interceptors
  - Test end-to-end
  - [ ] Add authetication system
+
+### To do:
+- Create a fake builder entity to tests
+- Create specific errors: NotFound, Validation
+- Use unit of work
