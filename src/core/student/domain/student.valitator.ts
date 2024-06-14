@@ -1,12 +1,14 @@
 import { ClassValidator } from "@core/@shared/validate";
-import { IsNotEmpty, MaxDate, ValidationError } from "class-validator";
+import { IsNotEmpty, MaxDate, MaxLength, ValidationError } from "class-validator";
 import { Student } from "./student.entity";
 
 export class StudentDomainRules{
     @IsNotEmpty({groups: ['name']})
+    @MaxLength(255)
     first_name: string;
 
     @IsNotEmpty({groups: ['name']})
+    @MaxLength(255)
     last_name: string;
 
     @MaxDate(minimalDate(), {groups: ['date']})
@@ -25,7 +27,8 @@ function minimalDate(): Date{
 
 export class StudentDomainValidator extends ClassValidator{
     validate(data: any, fields: string[]): ValidationError[] {
-        return super.validate(new StudentDomainRules(data), fields);
+        const newFields = fields?.length ? fields : ['name', 'date'];
+        return super.validate(new StudentDomainRules(data), newFields);
     }
 }
 
