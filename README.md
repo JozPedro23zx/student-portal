@@ -13,7 +13,7 @@ This project is a development system of school management using NestJS that was 
  - <s>Create tests</s>
  - [ ] Create repository
  - [ ] Create usecases
- - Define syntax validators to input and output
+ - <s>Define syntax validators to input and output</s>
  - [ ] Create controllers and services
  - Use interceptors
  - Test end-to-end
