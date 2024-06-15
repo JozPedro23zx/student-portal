@@ -1,8 +1,7 @@
-import { StudentRepositoryInMemory } from "@core/student/infrastructure/in-memory/student-in-memory.repository"
+import { StudentRepositoryInMemory } from "@core/student/infrastructure/in-memory/student-in-memory.repository";
 import { StudentUsecase } from "../create-student/create-sudent.usecase";
-import { ValidationError } from "class-validator";
 
-describe("Student unity tests", ()=>{
+describe("Student use-case unity tests", ()=>{
     let repository: StudentRepositoryInMemory;
     let usecase: StudentUsecase;
 

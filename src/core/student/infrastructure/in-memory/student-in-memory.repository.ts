@@ -1,4 +1,4 @@
-import { InMemoryRepository } from "@core/@shared/infrastructure/in-memory/memory.repository";
+import { InMemoryRepository } from "@core/@shared/infrastructure/repository/in-memory/memory.repository";
 import { Student } from "@core/student/domain/student.entity";
 import { IStudentRepository } from "../student-interface.repository";
 

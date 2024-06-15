@@ -1,5 +1,5 @@
-import BaseEntity from "../domain/entity/base-entity";
-import { Uuid } from "../domain/value-object/uuid.vo";
+import BaseEntity from "../../domain/entity/base-entity";
+import { Uuid } from "../../domain/value-object/uuid.vo";
 
 export interface IRepository<E extends BaseEntity> {
     create(entity: E): Promise<void>;
