@@ -20,7 +20,7 @@ This project is a development system of school management using NestJS that was 
  - [ ] Add authetication system
 
 ### To do:
-- Create a fake builder entity to tests
+- <s>Create a fake builder entity to tests<s>
 - Create specific errors: NotFound, Validation
 - Use unit of work
 - Add migrations system
