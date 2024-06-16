@@ -43,7 +43,7 @@ export class StudentSequelizeRepository implements IStudentRepository{
     async find(uuid: Uuid): Promise<Student> {
         const model = await this.studentModule.findByPk(uuid.id);
 
-        return StudentMapperModel.toEntity(model);
+        return model ? StudentMapperModel.toEntity(model) : null;
     }
 
     async findByIds(uuids: Uuid[]): Promise<Student[]> {

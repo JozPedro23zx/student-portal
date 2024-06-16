@@ -41,9 +41,9 @@ export class StudentModel extends Model<StudentModelProps>{
     @Column({allowNull: false, type: DataType.STRING(255)})
     declare phone_number: string;
 
-    @Column({allowNull: false, type: DataType.DATE(3)})
-    createdAt: Date;
+    // @Column({allowNull: false, type: DataType.DATE(3)})
+    // createdAt: Date;
 
-    @Column({allowNull: false, type: DataType.DATE(3)})
-    updatedAt: Date;
+    // @Column({allowNull: false, type: DataType.DATE(3)})
+    // updatedAt: Date;
 }

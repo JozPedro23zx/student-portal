@@ -5,7 +5,7 @@ import { Address } from "@core/student/domain/value-object/address.vo";
 import { Student } from "@core/student/domain/student.entity";
 import { IStudentRepository } from "@core/student/infrastructure/student-interface.repository";
 
-export class StudentUsecase implements IUseCase<CreateStudentInput, StudentOutput>{
+export class CreateStudentUsecase implements IUseCase<CreateStudentInput, StudentOutput>{
 
     constructor(private readonly studentRepo: IStudentRepository){}
 

@@ -11,6 +11,7 @@ export class Config{
       return {
         dialect: 'sqlite' as any,
         host: Config.env.DB_HOST,
+        logging: false
       };
     }
 
