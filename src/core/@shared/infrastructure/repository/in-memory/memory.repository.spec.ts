@@ -62,6 +62,21 @@ describe('InMemoryRepository Unit Tests', () => {
         );
     });
 
+    test('should find a entity', async () => {
+      const entity = new StubEntity({
+        entity_id: new Uuid(),
+        name: 'Test',
+        price: 100,
+      });
+  
+      await repo.create(entity);
+
+      let item = await repo.find(entity.entity_id);
+  
+      expect(item).toStrictEqual(entity);
+  });
+
+
     it('should update entity', async () => {
         const entity = new StubEntity({
           entity_id: new Uuid(),

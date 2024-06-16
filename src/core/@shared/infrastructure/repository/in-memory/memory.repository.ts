@@ -27,7 +27,7 @@ export abstract class InMemoryRepository<E extends BaseEntity> implements IRepos
     }
 
     async find(uuid: Uuid): Promise<E> {
-        const item = this.entities.find((e) => item.entityId.equals(uuid));
+        const item = this.entities.find((e) => e.entityId.equals(uuid));
         return item;
     }
 
