@@ -11,7 +11,7 @@ This project is a development system of school management using NestJS that was 
  - <s>Crate entity</s>
  - <s>Define domain validators to student</s>
  - <s>Create tests</s>
- - [ ] Create repository
+ - [x] Create repository
  - [x] Create usecases
  - <s>Define syntax validators to input and output</s>
  - [ ] Create controllers and services
