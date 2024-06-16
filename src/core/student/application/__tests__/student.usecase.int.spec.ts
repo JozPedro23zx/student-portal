@@ -8,6 +8,8 @@ import { Address } from "@core/student/domain/value-object/address.vo";
 import { Student, StudentProps } from "@core/student/domain/student.entity";
 import { DeleteStudentUsecase } from "../delete-student/delete-student";
 import { FindStudentUsecase } from "../find-student/find-student.usecase";
+import { StudentFakeBuilder } from "@core/student/domain/student.fake";
+import { FindAllStudentUsecase } from "../find-student/find-all-students.usecase";
 
 describe("Student use-case integration tests", ()=>{
     let repository: StudentSequelizeRepository;
@@ -56,31 +58,16 @@ describe("Student use-case integration tests", ()=>{
 
     describe("Find student usecase", ()=>{
         let findUseCase: FindStudentUsecase;
+        let findAllUseCase: FindAllStudentUsecase
 
         beforeEach(()=>{
             repository = new StudentSequelizeRepository(StudentModel);
             findUseCase = new FindStudentUsecase(repository);
+            findAllUseCase = new FindAllStudentUsecase(repository);
         })
         
-        it("should delete a student", async ()=>{
-            const address = new Address({
-                street: "Street",
-                number: 400,
-                city: "City",
-            });
-    
-            const createdAt = new Date();
-            const inputStudentProps: StudentProps = {
-                first_name: "Jony",
-                last_name: "Joseph",
-                date_of_birth: new Date(1999, 11, 17),
-                address: address,
-                phone_number: "99 9999-9999",
-                createdAt: createdAt,
-                updatedAt: createdAt
-            };
-    
-            let student = new Student(inputStudentProps);
+        it("should find a student", async ()=>{
+            const student = StudentFakeBuilder.aStudent().build();
 
             await repository.create(student);
 
@@ -94,6 +81,65 @@ describe("Student use-case integration tests", ()=>{
             expect(output.number).toBe(student.address.number);
             expect(output.city).toBe(student.address.city);
             expect(output.phone_number).toBe(student.phone_number);
+        })
+
+        it("should find some students", async ()=>{
+            const students = StudentFakeBuilder.theStudents(3).build() as Student[];
+
+            const studentIds = [students[0].entityId.id, students[2].entityId.id];
+
+            for (const student of students) {
+                await repository.create(student);
+            }
+
+            let output = await findAllUseCase.execute({ ids: studentIds });
+
+            expect(Array.isArray(output)).toBe(true);
+            expect(output.length).toBe(2);
+
+            output = studentIds.map(id => output.find(student => student.id === id));
+            output.forEach((outputStudent, index) => {
+                const student = students.find(s => s.entityId.id === studentIds[index]);
+                
+                expect(outputStudent.id).toBe(student.entityId.id);
+                expect(outputStudent.first_name).toBe(student.first_name);
+                expect(outputStudent.last_name).toBe(student.last_name);
+                expect(outputStudent.date_of_birth.toISOString()).toBe(student.date_of_birth.toISOString());
+                expect(outputStudent.street).toBe(student.address.street);
+                expect(outputStudent.number).toBe(student.address.number);
+                expect(outputStudent.city).toBe(student.address.city);
+                expect(outputStudent.phone_number).toBe(student.phone_number);
+              });
+        })
+
+        it("should find all students", async ()=>{
+            const students = StudentFakeBuilder.theStudents(3).build() as Student[];
+
+            const studentIds = students.map(student => student.entityId.id);
+
+            for (const student of students) {
+                await repository.create(student);
+            }
+
+            let output = await findAllUseCase.execute();
+            
+
+            expect(Array.isArray(output)).toBe(true);
+            expect(output.length).toBe(students.length);
+
+            output = studentIds.map(id => output.find(student => student.id === id));
+            output.forEach((outputStudent, index) => {
+                const student = students[index];
+                
+                expect(outputStudent.id).toBe(student.entityId.id);
+                expect(outputStudent.first_name).toBe(student.first_name);
+                expect(outputStudent.last_name).toBe(student.last_name);
+                expect(outputStudent.date_of_birth.toISOString()).toBe(student.date_of_birth.toISOString());
+                expect(outputStudent.street).toBe(student.address.street);
+                expect(outputStudent.number).toBe(student.address.number);
+                expect(outputStudent.city).toBe(student.address.city);
+                expect(outputStudent.phone_number).toBe(student.phone_number);
+              });
         })
     })
 
@@ -133,24 +179,13 @@ describe("Student use-case integration tests", ()=>{
                 }
             }
 
-            const address = new Address({
-                street: "Street",
-                number: 400,
-                city: "City",
-            });
-    
-            const createdAt = new Date();
-            const inputStudentProps: StudentProps = {
-                first_name: "Jony",
-                last_name: "Joseph",
-                date_of_birth: new Date(1999, 11, 17),
-                address: address,
-                phone_number: "99 9999-9999",
-                createdAt: createdAt,
-                updatedAt: createdAt
-            };
-    
-            let student = new Student(inputStudentProps);
+            const student = StudentFakeBuilder.aStudent()
+            .withFirstName("Jony")
+            .withLastName("Joseph")
+            .withDateOfBirth(new Date(1999, 11, 17))
+            .withAddress(new Address({ street: "Street", number: 400, city: "City" }))
+            .withPhoneNumber("99 9999-9999")
+            .build();
 
             repository.create(student);
             
@@ -326,24 +361,7 @@ describe("Student use-case integration tests", ()=>{
         })
         
         it("should delete a student", async ()=>{
-            const address = new Address({
-                street: "Street",
-                number: 400,
-                city: "City",
-            });
-    
-            const createdAt = new Date();
-            const inputStudentProps: StudentProps = {
-                first_name: "Jony",
-                last_name: "Joseph",
-                date_of_birth: new Date(1999, 11, 17),
-                address: address,
-                phone_number: "99 9999-9999",
-                createdAt: createdAt,
-                updatedAt: createdAt
-            };
-    
-            let student = new Student(inputStudentProps);
+            const student = StudentFakeBuilder.aStudent().build();
 
             await repository.create(student);
             

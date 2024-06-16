@@ -17,6 +17,6 @@ export class FindStudentUsecase implements IUseCase<FindStudentUsecaseInput, Stu
     }
 }
 
-type FindStudentUsecaseInput = {
+export type FindStudentUsecaseInput = {
     id: string
 }

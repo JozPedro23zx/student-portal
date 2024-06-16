@@ -7,16 +7,16 @@ import { Student } from "@core/student/domain/student.entity";
 export class FindAllStudentUsecase implements IUseCase<FindAllStudentUsecaseInput, StudentOutput[]>{
     constructor(private readonly studentRepo: IStudentRepository){}
 
-    async execute(input: FindAllStudentUsecaseInput): Promise<StudentOutput[]> {
+    async execute(input?: FindAllStudentUsecaseInput): Promise<StudentOutput[]> {
         let students: Student[];
-        if(!input.ids || input.ids.length === 0){
+        if(!input || input.ids.length === 0){
             students = await this.studentRepo.findAll();
         }else if(input.ids.length > 0){
             let uuids = input.ids.map((id) => new Uuid(id));
             students = await this.studentRepo.findByIds(uuids);
         }
-
-        let output: StudentOutput[];
+        
+        let output: StudentOutput[] = [];
         for (let student of students){
             let out = StudentOutputMapper.toOutput(student);
             output.push(out);
@@ -26,6 +26,6 @@ export class FindAllStudentUsecase implements IUseCase<FindAllStudentUsecaseInpu
     }
 }
 
-type FindAllStudentUsecaseInput = {
+export type FindAllStudentUsecaseInput = {
     ids?: string[]
 }
