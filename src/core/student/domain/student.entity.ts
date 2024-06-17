@@ -51,7 +51,7 @@ export class Student extends  BaseEntity{
 
     validate(fields?: string[]){
         const validator = StudentValidatorFactory.create();
-        const err = validator.validate(this, fields);
+        const err = validator.validate(this.notifications, this, fields);
         if (err) {
             throw err
         }

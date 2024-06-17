@@ -36,7 +36,7 @@ export default class CreateStudentInput {
     @IsDefined()
     city: string;
 
-    @IsPhoneNumber(null, { message: 'Invalid Phone Number' })
+    //@IsPhoneNumber(null, { message: 'Invalid Phone Number' })
     @IsOptional()
     phone_number?: string;
 
@@ -53,7 +53,7 @@ export default class CreateStudentInput {
 }
 
 export class ValidateCreateStudentInput{
-    static validate(input: CreateStudentInputProps){
+    static validate(input: CreateStudentInput){
         return validateSync(input);
     }
 }

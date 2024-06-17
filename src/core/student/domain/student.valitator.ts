@@ -1,6 +1,7 @@
-import { ClassValidator } from "@core/@shared/validate";
+import { ClassValidator } from "@core/@shared/validation/validate";
 import { IsNotEmpty, MaxDate, MaxLength, ValidationError } from "class-validator";
 import { Student } from "./student.entity";
+import { NotificationErrorInterface } from "@core/@shared/validation/notification-interface";
 
 export class StudentDomainRules{
     @IsNotEmpty({groups: ['name']})
@@ -26,9 +27,9 @@ function minimalDate(): Date{
 }
 
 export class StudentDomainValidator extends ClassValidator{
-    validate(data: any, fields: string[]): ValidationError[] {
+    validate(notification: NotificationErrorInterface, data: any, fields: string[]): boolean {
         const newFields = fields?.length ? fields : ['name', 'date'];
-        return super.validate(new StudentDomainRules(data), newFields);
+        return super.validate(notification, new StudentDomainRules(data), newFields);
     }
 }
 
