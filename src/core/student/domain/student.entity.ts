@@ -52,13 +52,8 @@ export class Student extends  BaseEntity{
     validate(fields?: string[]){
         const validator = StudentValidatorFactory.create();
         const err = validator.validate(this.notifications, this, fields);
-        if (err) {
-            throw err
-        }
-        else{
-            this.newUpdatedAt = new Date(Date.now())
-        }
-
+        this.newUpdatedAt = new Date(Date.now())
+        return err
     }
 
     toJSON(){

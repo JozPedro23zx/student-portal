@@ -10,29 +10,29 @@ export class CreateStudentUsecase implements IUseCase<CreateStudentInput, Studen
     constructor(private readonly studentRepo: IStudentRepository){}
 
     async execute(input: CreateStudentInput): Promise<StudentOutput> {
-        try {
-            const inputAddress =  new Address({
-                street: input.street,
-                number: input.number,
-                city: input.city
-            });
+        const inputAddress =  new Address({
+            street: input.street,
+            number: input.number,
+            city: input.city
+        });
 
-            const student = new Student({
-                first_name: input.first_name,
-                last_name: input.last_name,
-                date_of_birth: input.date_of_birth,
-                address: inputAddress,
-            });
+        const student = new Student({
+            first_name: input.first_name,
+            last_name: input.last_name,
+            date_of_birth: input.date_of_birth,
+            address: inputAddress,
+        });
 
-            student.validate();
+        student.validate();
 
-            if (input.phone_number) student.changePhone(input.phone_number);
-
-            await this.studentRepo.create(student);
-
-            return StudentOutputMapper.toOutput(student);
-        } catch (error) {
-            throw new Error(error);
+        if(student.notifications.hasErrors()){
+            throw new Error(student.notifications.getErrors())
         }
+
+        if (input.phone_number) student.changePhone(input.phone_number);
+
+        await this.studentRepo.create(student);
+
+        return StudentOutputMapper.toOutput(student);
     }
 }

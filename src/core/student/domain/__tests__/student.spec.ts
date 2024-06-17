@@ -178,9 +178,9 @@ describe('Student unit tests', ()=>{
     
             let student = new Student(inputStudentProps);
 
-            expect(() => {
-                student.validate(["date"]);
-              }).toThrow(ValidationError[0]);
+            student.validate(['date']);
+
+            expect(student.notifications.hasErrors()).toBe(true);
         })
 
         test("invalid name", ()=>{
@@ -200,9 +200,9 @@ describe('Student unit tests', ()=>{
     
             let student = new Student(inputStudentProps);
 
-            expect(() => {
-                student.validate(["name"]);
-              }).toThrow(ValidationError[0]);
+            student.validate(['name']);
+
+            expect(student.notifications.hasErrors()).toBe(true);
         })
     })
 

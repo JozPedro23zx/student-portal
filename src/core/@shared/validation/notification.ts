@@ -1,4 +1,4 @@
-import { NotificationErrorInterface, ErrorProps } from "./notification-interface";
+import { NotificationErrorInterface, ErrorProps, FieldsErrors } from "./notification-interface";
 
 export class NotificationError implements NotificationErrorInterface{
     private errors = new Map<string, string[] | string>();
@@ -23,7 +23,7 @@ export class NotificationError implements NotificationErrorInterface{
         return this.errors;
     }
 
-    messages(): any {
+    messages(): FieldsErrors[] {
         const errors: Array<string | { [key: string]: string[] }> = [];
         this.errors.forEach((value, key) => {
           if (typeof value === 'string') {
