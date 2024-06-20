@@ -30,7 +30,7 @@ export class StudentsController {
   }
 
   @Get()
-  async findAll(@Body() ids: string[]) {
+  async findAll(@Body() ids?: string[]) {
     return await this.findAllUsecase.execute({ ids });
   }
 
