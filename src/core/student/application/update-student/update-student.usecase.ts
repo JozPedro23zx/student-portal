@@ -4,6 +4,7 @@ import { StudentOutput, StudentOutputMapper } from "../output/student-output";
 import { Uuid } from "@core/@shared/domain/value-object/uuid.vo";
 import { IStudentRepository } from "@core/student/infrastructure/student-interface.repository";
 import { Address } from "@core/student/domain/value-object/address.vo";
+import { EntityValidationError } from "@core/@shared/erros/validate.error";
 
 export class UpdateStudentUsecase implements IUseCase<UpdateStudentInput, StudentOutput>{
 
@@ -33,7 +34,7 @@ export class UpdateStudentUsecase implements IUseCase<UpdateStudentInput, Studen
         }
 
         if(student.notifications.hasErrors()){
-            throw new Error(student.notifications.getErrors())
+            throw new EntityValidationError(student.notifications.messages())
         }
 
         await this.studentRepo.update(student)

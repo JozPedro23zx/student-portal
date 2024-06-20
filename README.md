@@ -21,6 +21,6 @@ This project is a development system of school management using NestJS that was 
 
 ### To do:
 - <s>Create a fake builder entity to tests</s>
-- Create specific errors: NotFound, Validation
+- <s>Create specific errors: NotFound, Validation</s>
 - Use unit of work
 - Add migrations system

@@ -9,8 +9,6 @@ import { UpdateStudentUsecase } from "@core/student/application/update-student/u
 import { DeleteStudentUsecase } from "@core/student/application/delete-student/delete-student";
 import { FindStudentUsecase } from "@core/student/application/find-student/find-student.usecase";
 import { FindAllStudentUsecase } from "@core/student/application/find-student/find-all-students.usecase";
-import { StudentOutput } from "@core/student/application/output/student-output";
-import { Uuid } from "@core/@shared/domain/value-object/uuid.vo";
 
 describe("Student Controller integration tests", ()=>{
     let controller: StudentsController;

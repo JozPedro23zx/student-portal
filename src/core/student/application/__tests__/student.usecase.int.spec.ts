@@ -10,6 +10,7 @@ import { DeleteStudentUsecase } from "../delete-student/delete-student";
 import { FindStudentUsecase } from "../find-student/find-student.usecase";
 import { StudentFakeBuilder } from "@core/student/domain/student.fake";
 import { FindAllStudentUsecase } from "../find-student/find-all-students.usecase";
+import { CustomNotFoundError } from "@core/@shared/erros/not-found.error";
 
 describe("Student use-case integration tests", ()=>{
     let repository: StudentSequelizeRepository;
@@ -81,6 +82,22 @@ describe("Student use-case integration tests", ()=>{
             expect(output.number).toBe(student.address.number);
             expect(output.city).toBe(student.address.city);
             expect(output.phone_number).toBe(student.phone_number);
+        })
+
+        it("shoud not find any student", async ()=>{
+            const students = StudentFakeBuilder.theStudents(4).build() as Student[];
+
+            for (const student of students) {
+                await repository.create(student);
+            }
+
+            let uuid1 = new Uuid()
+            let uuid2 = new Uuid()
+            let uuid3 = new Uuid()
+
+            let idsFake = [uuid1.id, uuid2.id, uuid3.id];
+
+            await expect(findAllUseCase.execute({ ids: idsFake })).rejects.toThrow(CustomNotFoundError);
         })
 
         it("should find some students", async ()=>{

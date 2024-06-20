@@ -5,6 +5,7 @@ import { Address } from "@core/student/domain/value-object/address.vo";
 import { Student, StudentProps } from "@core/student/domain/student.entity";
 import { DeleteStudentUsecase } from "../delete-student/delete-student";
 import { FindStudentUsecase } from "../find-student/find-student.usecase";
+import { EntityValidationError } from "@core/@shared/erros/validate.error";
 
 describe("Student use-case unity tests", ()=>{
     let repository: StudentRepositoryInMemory;
@@ -29,7 +30,7 @@ describe("Student use-case unity tests", ()=>{
                 "phone_number": "12345-6789"
             };
 
-            await expect(usecase.execute(input)).rejects.toThrow();
+            await expect(usecase.execute(input)).rejects.toThrow(EntityValidationError);
         })
 
         it("should create a student", async ()=>{

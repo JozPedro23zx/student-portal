@@ -4,6 +4,7 @@ import { StudentOutput, StudentOutputMapper } from "../output/student-output";
 import { Address } from "@core/student/domain/value-object/address.vo";
 import { Student } from "@core/student/domain/student.entity";
 import { IStudentRepository } from "@core/student/infrastructure/student-interface.repository";
+import { EntityValidationError } from "@core/@shared/erros/validate.error";
 
 export class CreateStudentUsecase implements IUseCase<CreateStudentInput, StudentOutput>{
 
@@ -25,8 +26,10 @@ export class CreateStudentUsecase implements IUseCase<CreateStudentInput, Studen
 
         student.validate();
 
+        
         if(student.notifications.hasErrors()){
-            throw new Error(student.notifications.getErrors())
+            console.log(student.notifications.messages())
+            throw new EntityValidationError(student.notifications.messages())
         }
 
         if (input.phone_number) student.changePhone(input.phone_number);
