@@ -31,7 +31,6 @@ const models = [StudentModel];
                 password: configService.get('DB_PASSWORD'),
                 models,
                 logging: configService.get('DB_LOGGING'),
-                autoLoadModels: configService.get('DB_AUTO_LOAD_MODELS'),
               };
             }
     

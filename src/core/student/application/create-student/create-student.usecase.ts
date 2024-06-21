@@ -24,11 +24,13 @@ export class CreateStudentUsecase implements IUseCase<CreateStudentInput, Studen
             address: inputAddress,
         });
 
-        student.validate();
+        console.log(student)
 
         
+        student.validate();
+        
         if(student.notifications.hasErrors()){
-            console.log(student.notifications.messages())
+            console.log("notifications trhow a error: ", student.notifications.messages())
             throw new EntityValidationError(student.notifications.messages())
         }
 

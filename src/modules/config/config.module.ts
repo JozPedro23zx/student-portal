@@ -42,14 +42,15 @@ export const CONFIG_DB_SCHEMA: Joi.StrictSchemaMap<DB_SCHEMA_TYPE> = {
 @Module({})
 export class MyConfigModule extends ConfigModule{
     static forRoot(){
-
-        const envFilePath = process.env.NODE_ENV 
-        ? join(process.cwd(), 'envs', `.env.${process.env.NODE_ENV}`)
-        : join(process.cwd(), 'envs', '.env');
-
+      
+      
+      const envFilePath = process.env.NODE_ENV 
+      ? join(process.cwd(), 'envs', `.env.${process.env.NODE_ENV}`)
+      : join(process.cwd(), 'envs', '.env');
+      
         return super.forRoot({
             isGlobal: true,
-            envFilePath: [envFilePath, '.env'],
+            envFilePath: [envFilePath],
             validationSchema: Joi.object({...CONFIG_DB_SCHEMA})
         })
     }

@@ -1,7 +1,6 @@
 import { Uuid } from "@core/@shared/domain/value-object/uuid.vo";
 import { Student, StudentProps } from "../student.entity"
 import { Address } from "../value-object/address.vo"
-import { ValidationError } from "class-validator";
 
 describe('Student unit tests', ()=>{
     beforeEach(()=>{

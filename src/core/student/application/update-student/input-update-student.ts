@@ -48,7 +48,7 @@ export default class UpdateStudentInput {
 
     @ValidateNested()
     @Type(() => AddressInput)
-    address: AddressInput;
+    address?: AddressInput;
 
     @IsPhoneNumber(null, { message: 'Invalid Phone Number' })
     @IsOptional()

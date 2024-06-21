@@ -10,7 +10,7 @@ export class FindAllStudentUsecase implements IUseCase<FindAllStudentUsecaseInpu
 
     async execute(input?: FindAllStudentUsecaseInput): Promise<StudentOutput[]> {
         let students: Student[];
-        if(!input || input.ids.length === 0){
+        if(!input || !input.ids || input.ids.length === 0){
             students = await this.studentRepo.findAll();
         }else if(input.ids.length > 0){
             let uuids = input.ids.map((id) => new Uuid(id));

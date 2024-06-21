@@ -39,12 +39,9 @@ export class StudentsController {
     return await this.findUsecase.execute({id: id});
   }
 
-  @Patch(':id')
-  async update(@Param('id') id: string, @Body() updateStudentDto: UpdateStudentInput) {
-    return await this.updateUsecase.execute({
-      ...updateStudentDto,
-      id,
-    });
+  @Patch()
+  async update(@Body() updateStudentDto: UpdateStudentInput) {
+    return await this.updateUsecase.execute(updateStudentDto);
   }
 
   @Delete(':id')
