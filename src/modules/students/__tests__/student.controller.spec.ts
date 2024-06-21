@@ -1,52 +1,60 @@
-import { IStudentRepository } from "@core/student/infrastructure/student-interface.repository";
 import { StudentsController } from "../students.controller"
 import { TestingModule, Test} from "@nestjs/testing"
-import { ConfigModule } from "@nestjs/config";
-import { DatabaseModule } from "src/modules/database/database.module";
-import { StudentsModule } from "../students.module";
 import { CreateStudentUsecase } from "@core/student/application/create-student/create-student.usecase";
 import { UpdateStudentUsecase } from "@core/student/application/update-student/update-student.usecase";
 import { DeleteStudentUsecase } from "@core/student/application/delete-student/delete-student";
 import { FindStudentUsecase } from "@core/student/application/find-student/find-student.usecase";
 import { FindAllStudentUsecase } from "@core/student/application/find-student/find-all-students.usecase";
 
-describe("Student Controller integration tests", ()=>{
+
+describe("Student Controller unit tests", ()=>{
     let controller: StudentsController;
-    let repository: IStudentRepository;
     let createUsecase: CreateStudentUsecase;
     let findUsecase: FindStudentUsecase;
     let findAllUsecase: FindAllStudentUsecase;
     let deleteUsecase: DeleteStudentUsecase;
     let updateUsecase: UpdateStudentUsecase;
 
-    beforeEach(async ()=>{
+    beforeEach(async () => {
         const module: TestingModule = await Test.createTestingModule({
-            imports: [
-                ConfigModule.forRoot(),
-                DatabaseModule,
-                StudentsModule,
-            ]
+          controllers: [StudentsController],
+          providers: [
+            {
+              provide: CreateStudentUsecase,
+              useValue: { execute: jest.fn() },
+            },
+            {
+              provide: FindStudentUsecase,
+              useValue: { execute: jest.fn() },
+            },
+            {
+              provide: FindAllStudentUsecase,
+              useValue: { execute: jest.fn() },
+            },
+            {
+              provide: UpdateStudentUsecase,
+              useValue: { execute: jest.fn() },
+            },
+            {
+              provide: DeleteStudentUsecase,
+              useValue: { execute: jest.fn() },
+            },
+          ],
         }).compile();
-
+    
         controller = module.get<StudentsController>(StudentsController);
-        repository = module.get<IStudentRepository>('StudentRepository');
         createUsecase = module.get<CreateStudentUsecase>(CreateStudentUsecase);
         findUsecase = module.get<FindStudentUsecase>(FindStudentUsecase);
         findAllUsecase = module.get<FindAllStudentUsecase>(FindAllStudentUsecase);
         updateUsecase = module.get<UpdateStudentUsecase>(UpdateStudentUsecase);
-        deleteUsecase = module.get<DeleteStudentUsecase>(DeleteStudentUsecase);        
-    })
+        deleteUsecase = module.get<DeleteStudentUsecase>(DeleteStudentUsecase);
+      });
 
     it('should be defined', () => {
         expect(controller).toBeDefined();
-        expect(createUsecase).toBeDefined();
-        expect(findUsecase).toBeDefined();
-        expect(findAllUsecase).toBeDefined();
-        expect(updateUsecase).toBeDefined();
-        expect(deleteUsecase).toBeDefined();
     });
 
-    it('should create a student', async ()=>{
+    it('should call createUsecase.execute with correct values', async ()=>{
         const input = {
             "first_name": "Jon",
             "last_name": "Silver",
@@ -60,29 +68,29 @@ describe("Student Controller integration tests", ()=>{
         await controller.create(input);
         
         expect(createUsecase.execute).toHaveBeenCalledWith(input);
+
     })
 
-    it('should find one student', async ()=>{
+    it('should call findUsecase.execute with correct values', async ()=>{
         const id = "1"
         await controller.findOne(id);
-        expect(findUsecase.execute).toHaveBeenCalledWith(id)
+        expect(findUsecase.execute).toHaveBeenCalledWith({id})
     })
 
-    it('should find all students', async()=>{
+    it('should call findAllUsecase.execute', async()=>{
         await controller.findAll();
-        expect(findAllUsecase.execute()).toHaveBeenCalled
+        expect(findAllUsecase.execute).toHaveBeenCalled
     })
 
-    it('should find some students', async()=>{
+    it('should call findAllUsecase.execute with correct values', async()=>{
         const ids = ["1", "2"];
         await controller.findAll(ids);
-        expect(findAllUsecase.execute()).toHaveBeenCalledWith({ ids });
+        expect(findAllUsecase.execute).toHaveBeenCalledWith({ ids });
     })
 
     it('should call updateUsecase.execute with correct values', async () => {
-        const id = '1';
         const updateStudentDto = { 
-            "id": id,
+            "id": "123",
             "first_name": "Jon",
             "last_name": "Silver",
             "date_of_birth": new Date("1999-05-14"), 
@@ -93,8 +101,8 @@ describe("Student Controller integration tests", ()=>{
             },
             "phone_number": "12345-6789"
          };
-        await controller.update(id, updateStudentDto);
-        expect(updateUsecase.execute).toHaveBeenCalledWith({ ...updateStudentDto, id });
+        await controller.update(updateStudentDto);
+        expect(updateUsecase.execute).toHaveBeenCalledWith({ ...updateStudentDto});
     });
 
     it('should call deleteUsecase.execute with correct values', async () => {
