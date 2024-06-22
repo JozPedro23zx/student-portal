@@ -4,10 +4,11 @@ import request from 'supertest';
 import { AppModule } from 'src/app.module';
 import { DomainValidationFilter } from 'src/modules/@shared/filters/domain-validation/domain-validation.filter';
 import { NotFoundFilter } from 'src/modules/@shared/filters/not-found/not-found.filter';
-import CreateStudentInput, { CreateStudentInputProps } from '@core/student/application/create-student/input-create-student';
 import { IStudentRepository } from '@core/student/infrastructure/student-interface.repository';
 import { Sequelize } from 'sequelize-typescript';
 import { getConnectionToken } from '@nestjs/sequelize';
+import { StudentFakeBuilder } from '@core/student/domain/student.fake';
+import UpdateStudentInput from '@core/student/application/update-student/input-update-student';
 
 describe('StudentsController (e2e)', () => {
   
@@ -98,4 +99,77 @@ describe('StudentsController (e2e)', () => {
       });
     })
   })
+
+  describe('/students (GET)', ()=>{
+    it('should emit not found error', ()=>{
+      const id = "2ea1864c-a1b1-4f6c-a197-bf1db3a86c7b"
+      return request(app.getHttpServer())
+      .get(`/students/${id}`)
+      .expect(404)
+    })
+
+
+    it('should return a student', async ()=>{
+      const student = StudentFakeBuilder.aStudent().build();
+      await repository.create(student);
+
+      return request(app.getHttpServer())
+      .get(`/students/${student.entityId.id}`)
+      .expect(200)
+    })
+  })
+
+  describe('/students (PATCH)', ()=>{
+    it('should emit not found error', ()=>{
+      const input: UpdateStudentInput = {
+        id: "2ea1864c-a1b1-4f6c-a197-bf1db3a86c7b",
+        first_name: "Alex"
+      }
+      return request(app.getHttpServer())
+      .patch(`/students`)
+      .send(input)
+      .expect(404)
+    })
+
+    it('should update student', async ()=>{
+      const student = StudentFakeBuilder.aStudent().build();
+      await repository.create(student);
+
+      const input: UpdateStudentInput = {
+        id: student.entityId.id,
+        first_name: "Alex"
+      }
+      return request(app.getHttpServer())
+      .patch(`/students`)
+      .send(input)
+      .expect(200)
+      .expect((res) => {
+        expect(res.body.first_name).toBe(input.first_name);
+      })
+    })
+  })
+
+  describe('/students (DELETE)', ()=>{
+    it('should emit not found error', ()=>{
+      const id = "2ea1864c-a1b1-4f6c-a197-bf1db3a86c7b"
+      return request(app.getHttpServer())
+      .delete(`/students/${id}`)
+      .expect(404)
+    })
+
+    it('should delete student', async ()=>{
+      const student = StudentFakeBuilder.aStudent().build();
+      await repository.create(student);
+
+      repository.find(student.entityId)
+
+      return request(app.getHttpServer())
+      .delete(`/students/${student.entityId.id}`)
+      .expect(200)
+      .expect(async (res)=>{
+        await expect(repository.find(student.entityId)).resolves.toBeNull()
+      })
+    })
+  })
+
 });

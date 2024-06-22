@@ -3,6 +3,7 @@ import { StudentSequelizeRepository } from "./student-sequelize.repository";
 import { StudentModel } from "./student.model";
 import { StudentFakeBuilder } from "@core/student/domain/student.fake";
 import { Uuid } from "@core/@shared/domain/value-object/uuid.vo";
+import { CustomNotFoundError } from "@core/@shared/erros/not-found.error";
 
 describe("Student sequelize repository integration tests", ()=>{
     let repository: StudentSequelizeRepository;
@@ -57,7 +58,7 @@ describe("Student sequelize repository integration tests", ()=>{
     
       it('should throw error on delete when a entity not found', async () => {
         const studentId = new Uuid();
-        await expect(repository.delete(studentId)).rejects.toThrow("Not found error");
+        await expect(repository.delete(studentId)).rejects.toThrow(CustomNotFoundError);
       });
     
       it('should delete a entity', async () => {

@@ -5,6 +5,8 @@ import { Uuid } from "@core/@shared/domain/value-object/uuid.vo";
 import { IStudentRepository } from "@core/student/infrastructure/student-interface.repository";
 import { Address } from "@core/student/domain/value-object/address.vo";
 import { EntityValidationError } from "@core/@shared/erros/validate.error";
+import { CustomNotFoundError } from "@core/@shared/erros/not-found.error";
+import { Student } from "@core/student/domain/student.entity";
 
 export class UpdateStudentUsecase implements IUseCase<UpdateStudentInput, StudentOutput>{
 
@@ -15,7 +17,7 @@ export class UpdateStudentUsecase implements IUseCase<UpdateStudentInput, Studen
         const student = await this.studentRepo.find(studentId);
 
         if (!student) {
-            throw new Error("Student not found");
+            throw new CustomNotFoundError(studentId.id, Student.name)
         }
 
         student.changeName(input.first_name, input.last_name);

@@ -4,6 +4,7 @@ import { IStudentRepository } from "../student-interface.repository";
 import { StudentMapperModel } from "./student-mapper.model";
 import { StudentModel } from "./student.model";
 import { Op } from "sequelize";
+import { CustomNotFoundError } from "@core/@shared/erros/not-found.error";
 
 export class StudentSequelizeRepository implements IStudentRepository{
     constructor(private studentModule: typeof StudentModel) {}
@@ -34,9 +35,7 @@ export class StudentSequelizeRepository implements IStudentRepository{
         const affectedRows = await this.studentModule.destroy({where: {id: uuid.id}});
 
         if(affectedRows === 0){
-            throw new Error("Not found error");
-        }else if(affectedRows > 1){
-            throw new Error("More than line was affected");
+            throw new CustomNotFoundError(uuid.id, Student.name)
         }
     }
 

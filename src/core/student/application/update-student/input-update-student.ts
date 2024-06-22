@@ -1,31 +1,31 @@
 import { Type } from "class-transformer";
-import { IsDate, IsDefined, IsNotEmpty, IsNumber, IsOptional, IsPhoneNumber, IsPositive, IsString, ValidateNested, validateSync } from "class-validator";
+import {IsNotEmpty, IsNumber, IsOptional, IsPositive, IsString, ValidateNested, validateSync } from "class-validator";
 
 export type UpdateStudentInputProps = {
     id: string;
-    first_name: string;
-    last_name: string;
-    date_of_birth: Date;
-    address: {
-        street: string;
-        number: number;
-        city: string;
+    first_name?: string;
+    last_name?: string;
+    date_of_birth?: Date;
+    address?: {
+        street?: string;
+        number?: number;
+        city?: string;
     };
     phone_number?: string;
 }
 
 export class AddressInput{
     @IsString()
-    @IsDefined()
+    @IsOptional()
     street?: string;
 
     @IsNumber()
     @IsPositive()
-    @IsDefined()
+    @IsOptional()
     number?: number;
 
     @IsString()
-    @IsDefined()
+    @IsOptional()
     city?: string;
 }
 
@@ -35,22 +35,23 @@ export default class UpdateStudentInput {
     id: string;
 
     @IsString()
-    @IsDefined()
+    @IsOptional()
     first_name?: string;
 
     @IsString()
-    @IsDefined()
+    @IsOptional()
     last_name?: string;
 
-    @IsDate()
-    @IsDefined()
+    @IsString()
+    @IsOptional()
     date_of_birth?: Date;
 
     @ValidateNested()
+    @IsOptional()
     @Type(() => AddressInput)
     address?: AddressInput;
 
-    @IsPhoneNumber(null, { message: 'Invalid Phone Number' })
+    @IsString()
     @IsOptional()
     phone_number?: string;
 
