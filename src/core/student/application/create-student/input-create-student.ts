@@ -1,4 +1,4 @@
-import { IsDate, IsDefined, IsNumber, IsOptional, IsPhoneNumber, IsPositive, IsString, validateSync } from "class-validator";
+import { IsDateString, IsNotEmpty, IsNumber, IsOptional, IsPhoneNumber, IsPositive, IsString, validateSync } from "class-validator";
 
 export type CreateStudentInputProps = {
     first_name: string;
@@ -12,31 +12,31 @@ export type CreateStudentInputProps = {
 
 export default class CreateStudentInput {
     @IsString()
-    @IsDefined()
+    @IsNotEmpty()
     first_name: string;
 
     @IsString()
-    @IsDefined()
+    @IsNotEmpty()
     last_name: string;
 
-    @IsDate()
-    @IsDefined()
+    @IsDateString()
+    @IsNotEmpty()
     date_of_birth: Date;
 
     @IsString()
-    @IsDefined()
+    @IsNotEmpty()
     street: string;
 
     @IsNumber()
     @IsPositive()
-    @IsDefined()
+    @IsNotEmpty()
     number: number;
 
     @IsString()
-    @IsDefined()
+    @IsNotEmpty()
     city: string;
 
-    //@IsPhoneNumber(null, { message: 'Invalid Phone Number' })
+    @IsString()
     @IsOptional()
     phone_number?: string;
 

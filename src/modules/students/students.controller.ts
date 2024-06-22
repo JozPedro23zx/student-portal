@@ -26,6 +26,7 @@ export class StudentsController {
 
   @Post()
   async create(@Body() input: CreateStudentInput) {
+    console.log(input)
     return await this.createUsecase.execute(input);
   }
 

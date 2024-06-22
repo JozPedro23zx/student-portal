@@ -20,17 +20,13 @@ export class CreateStudentUsecase implements IUseCase<CreateStudentInput, Studen
         const student = new Student({
             first_name: input.first_name,
             last_name: input.last_name,
-            date_of_birth: input.date_of_birth,
+            date_of_birth: new Date(input.date_of_birth),
             address: inputAddress,
         });
-
-        console.log(student)
-
         
         student.validate();
         
         if(student.notifications.hasErrors()){
-            console.log("notifications trhow a error: ", student.notifications.messages())
             throw new EntityValidationError(student.notifications.messages())
         }
 

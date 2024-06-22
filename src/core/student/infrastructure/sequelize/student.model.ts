@@ -1,4 +1,4 @@
-import { Column, DataType, Model, PrimaryKey, Table } from "sequelize-typescript";
+import { Column, DataType, Model, PrimaryKey, Table } from 'sequelize-typescript';
 
 export type StudentModelProps = {
     id: string;
@@ -13,37 +13,37 @@ export type StudentModelProps = {
     updatedAt: Date;
 }
 
-@Table({tableName: "students", timestamps: false})
+@Table({tableName: 'students', timestamps: false})
 export class StudentModel extends Model<StudentModelProps>{
 
     @PrimaryKey
-    @Column({allowNull: false, type: DataType.UUID})
+    @Column({ allowNull: false, type: DataType.UUID })
     declare id: string;
-
-    @Column({allowNull: false, type: DataType.STRING(255)})
+  
+    @Column({ allowNull: false, type: DataType.STRING(255) })
     declare first_name: string;
-
-    @Column({allowNull: false, type: DataType.STRING(255)})
+  
+    @Column({ allowNull: false, type: DataType.STRING(255) })
     declare last_name: string;
-
-    @Column({allowNull: false, type: DataType.DATE(3)})
+  
+    @Column({ allowNull: false, type: DataType.DATE })
     declare date_of_birth: Date;
-
-    @Column({allowNull: false, type: DataType.STRING(255)})
+  
+    @Column({ allowNull: false, type: DataType.STRING(255) })
     declare street: string;
-
-    @Column({allowNull: false, type: DataType.NUMBER})
+  
+    @Column({ allowNull: false, type: DataType.INTEGER })
     declare number: number;
-
-    @Column({allowNull: false, type: DataType.STRING(255)})
+  
+    @Column({ allowNull: false, type: DataType.STRING(255) })
     declare city: string;
-
-    @Column({allowNull: false, type: DataType.STRING(255)})
+  
+    @Column({ allowNull: false, type: DataType.STRING(255) })
     declare phone_number: string;
-
-    // @Column({allowNull: false, type: DataType.DATE(3)})
-    // createdAt: Date;
-
-    // @Column({allowNull: false, type: DataType.DATE(3)})
-    // updatedAt: Date;
+  
+    @Column({ allowNull: false, type: DataType.DATE })
+    declare createdAt: Date;
+  
+    @Column({ allowNull: false, type: DataType.DATE })
+    declare updatedAt: Date;
 }
