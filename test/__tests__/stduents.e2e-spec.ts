@@ -83,7 +83,7 @@ describe('StudentsController (e2e)', () => {
       const createStudentInput = {
         "first_name": "Jon",
         "last_name": "Silver",
-        "date_of_birth": new Date("1999-05-14"), 
+        "date_of_birth": "1999-05-14", 
         "street": "Flower Street",
         "number": 123,
         "city": "Old York",
