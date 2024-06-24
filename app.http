@@ -1,0 +1,42 @@
+
+###
+POST http://localhost:3000/students
+Content-Type: application/json
+
+{
+    "first_name": "Michael",
+    "last_name": "Stuart",
+    "date_of_birth": "1999-05-14", 
+    "street": "Flower Street",
+    "number": 123,
+    "city": "Old York",
+    "phone_number": "12345-6789"
+}
+
+
+###
+GET http://localhost:3000/students/a1790da6-e796-4157-a712-57af227bcc25
+
+###
+GET http://localhost:3000/students
+
+###
+GET http://localhost:3000/students
+Content-Type: application/json
+
+[
+    "50a1adb2-669b-41b9-8a00-8302b7d2b4df",
+    "2fc5ae96-6458-4c7b-81db-14645b595588"
+]
+
+###
+PATCH http://localhost:3000/students
+Content-Type: application/json
+
+{
+    "id": "a1790da6-e796-4157-a712-57af227bcc25",
+    "first_name": "Jon"
+}
+
+###
+DELETE http://localhost:3000/students/a1790da6-e796-4157-a712-57af227bcc25
