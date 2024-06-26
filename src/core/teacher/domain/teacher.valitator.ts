@@ -4,11 +4,11 @@ import { Teacher } from "./teacher.entity";
 import { NotificationErrorInterface } from "@core/@shared/validation/notification-interface";
 
 export class TeacherDomainRules{
-    @IsNotEmpty()
+    @IsNotEmpty({groups: ['name']})
     @MaxLength(255)
     first_name: string;
 
-    @IsNotEmpty()
+    @IsNotEmpty({groups: ['name']})
     @MaxLength(255)
     last_name: string;
 
