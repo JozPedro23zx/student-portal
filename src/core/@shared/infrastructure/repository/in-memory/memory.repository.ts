@@ -33,7 +33,7 @@ export abstract class InMemoryRepository<E extends BaseEntity> implements IRepos
 
     async findByIds(uuids: Uuid[]): Promise<E[]> {
         return this.entities.filter((e)=>{
-            return uuids.some((id) => e.entityId.equals(id));
+            return uuids.some((uuid) => uuid.id === e.entityId.id);
         });
     }
 

@@ -11,6 +11,7 @@ export class TeacherSequelizeRepository implements IRepository<Teacher> {
 
     async create(entity: Teacher): Promise<void> {
         const teacherModel = TeacherMapperModel.toModel(entity);
+        console.log(teacherModel);
         await this.teacherModel.create(teacherModel.toJSON(), {
             include: [SubjectModel]
         });

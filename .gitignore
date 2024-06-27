@@ -37,3 +37,4 @@ lerna-debug.log*
 #Others
 .env
 .docker
+.vscode

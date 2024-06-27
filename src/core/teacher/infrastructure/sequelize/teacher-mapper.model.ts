@@ -1,17 +1,22 @@
 import { Uuid } from "@core/@shared/domain/value-object/uuid.vo";
 import { Address } from "@core/teacher/domain/value-object/address.vo";
 import { Teacher } from "@core/teacher/domain/teacher.entity";
-import { TeacherModel } from "./teacher.model";
+import { SubjectModel, TeacherModel } from "./teacher.model";
 import { Subject } from "@core/teacher/domain/value-object/subject.vo";
 
 export class TeacherMapperModel{
     static toModel(entity: Teacher): TeacherModel{
         
-        const subjectModels = entity.subject_specialization.map(subject => ({
-            id: new Uuid().id,
-            type: subject.type,
-            teacherId: entity.entityId.id
-        }));
+        const subjectModels = entity.subject_specialization.map(subject => {
+                return SubjectModel.build({
+                    id: new Uuid().id,
+                    type: subject.type,
+                    teacherId: entity.entityId.id
+                })
+            } 
+        );
+
+        console.log(subjectModels)
 
         return TeacherModel.build({
             id: entity.entityId.id,
@@ -36,6 +41,8 @@ export class TeacherMapperModel{
         });
 
         let subjects: Subject[] = [];
+
+        //console.log(model.subject_specialization)
 
         model.subject_specialization.map((s)=>{
             const subject = Subject.create(s.type);

@@ -7,6 +7,7 @@ import {
     PrimaryKey,
     ForeignKey,
     HasMany,
+    BelongsTo,
 } from 'sequelize-typescript';
 
 
@@ -14,7 +15,7 @@ export type TeacherModelProps = {
     id: string;
     first_name: string;
     last_name: string;
-    subject_specialization: SubjectModelProps[];
+    subject_specialization: SubjectModel[];
     date_of_birth: Date;
     street: string;
     number: number;
@@ -88,4 +89,7 @@ export class SubjectModel extends Model<SubjectModelProps> {
     @ForeignKey(() => TeacherModel)
     @Column({ allowNull: false, type: DataType.STRING(255) })
     declare teacherId: string;
+
+    @BelongsTo(() => TeacherModel)
+    declare teacher: TeacherModel;
 }

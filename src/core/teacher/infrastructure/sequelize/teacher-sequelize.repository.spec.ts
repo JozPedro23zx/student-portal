@@ -6,7 +6,7 @@ import { Uuid } from "@core/@shared/domain/value-object/uuid.vo";
 import { CustomNotFoundError } from "@core/@shared/erros/not-found.error";
 import { Subject, Subjects } from "@core/teacher/domain/value-object/subject.vo";
 
-describe("Teacher sequelize unity test", ()=> {
+describe("Teacher sequelize integration test", ()=> {
     let repository: TeacherSequelizeRepository;
 
     
@@ -68,7 +68,6 @@ describe("Teacher sequelize unity test", ()=> {
         const teacher = TeacherFakeBuilder.aTeacher().withSubjectSpecialization([Subject.create(Subjects.MATH)]).build();
 
         await repository.create(teacher);
-        console.log(teacher)
         teacher.changeName('Jane', 'Smith');
         teacher.changePhone('987-654-3210');
         teacher.addSubjectSpecialization(Subject.create(Subjects.SCIENCE));
