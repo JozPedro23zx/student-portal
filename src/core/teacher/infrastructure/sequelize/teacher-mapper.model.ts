@@ -16,8 +16,6 @@ export class TeacherMapperModel{
             } 
         );
 
-        console.log(subjectModels)
-
         return TeacherModel.build({
             id: entity.entityId.id,
             first_name: entity.first_name,
@@ -30,6 +28,8 @@ export class TeacherMapperModel{
             subject_specialization: subjectModels,
             createdAt: entity.createdAt,
             updatedAt: entity.updatedAt,
+        }, {
+            include: [{model: SubjectModel, as: "subject_specialization"}]
         });
     }
 
@@ -41,8 +41,6 @@ export class TeacherMapperModel{
         });
 
         let subjects: Subject[] = [];
-
-        //console.log(model.subject_specialization)
 
         model.subject_specialization.map((s)=>{
             const subject = Subject.create(s.type);

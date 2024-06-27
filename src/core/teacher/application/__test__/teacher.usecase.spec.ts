@@ -205,6 +205,8 @@ describe("Teacher unit test", ()=>{
             repository.entities = [teacher];
 
             await deleteUsecase.execute({id: teacher.entityId.id})
+
+            expect(repository.entities.length).toBe(0)
         })
     })
 })

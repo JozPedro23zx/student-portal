@@ -20,9 +20,9 @@ export type TeacherModelProps = {
     street: string;
     number: number;
     city: string;
-    phone_number?: string;
-    createdAt?: Date,
-    updatedAt?: Date,
+    phone_number: string;
+    createdAt: Date,
+    updatedAt: Date,
 }
 
 export type SubjectModelProps = {

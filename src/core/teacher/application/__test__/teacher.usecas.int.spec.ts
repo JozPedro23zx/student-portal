@@ -9,6 +9,7 @@ import UpdateTeacherInput from "../update-teacher/input-update-teacher";
 import { Subject } from "@core/teacher/domain/value-object/subject.vo";
 import { FindTeacherUsecase } from "../find-teacher/find-teacher.usecase";
 import { FindAllTeacherUsecase } from "../find-teacher/find-all-teacher.usecase";
+import { DeleteTeacherUsecase } from "../delete-teacher/delete-teacher.usecase";
 
 describe("Teacher integration tests", ()=>{
     let repository: TeacherSequelizeRepository;
@@ -122,7 +123,7 @@ describe("Teacher integration tests", ()=>{
         it("should find a teacher int", async ()=>{
             const teacher = TeacherFakeBuilder.aTeacher().withSubjectSpecialization([Subject.create("math")]).build();
 
-            repository.create(teacher)
+            await repository.create(teacher)
 
             let output = await findUsecase.execute({id: teacher.entityId.id})
 
@@ -137,6 +138,8 @@ describe("Teacher integration tests", ()=>{
 
         it("should find all teachers", async ()=>{
             const teachers = TeacherFakeBuilder.theTeachers(4).build()
+
+            const teacherIds = teachers.map(teacher => teacher.entityId.id);
             
             for(const teacher of teachers){
                 repository.create(teacher);
@@ -145,11 +148,27 @@ describe("Teacher integration tests", ()=>{
             let output = await findAllUsecase.execute();
 
             expect(Array.isArray(output)).toBe(true);
-            expect(output.length).toBe(repository.entities.length);
+            expect(output.length).toBe(teachers.length);
+
+            output = teacherIds.map(id => output.find(teacher => teacher.id === id));
+            output.forEach((outputteacher, index) => {
+                const teacher = teachers[index];
+                
+                expect(outputteacher.id).toBe(teacher.entityId.id);
+                expect(outputteacher.first_name).toBe(teacher.first_name);
+                expect(outputteacher.last_name).toBe(teacher.last_name);
+                expect(outputteacher.date_of_birth.toISOString()).toBe(teacher.date_of_birth.toISOString());
+                expect(outputteacher.street).toBe(teacher.address.street);
+                expect(outputteacher.number).toBe(teacher.address.number);
+                expect(outputteacher.city).toBe(teacher.address.city);
+                expect(outputteacher.phone_number).toBe(teacher.phone_number);
+            });
         })
 
         it("should find some teacher", async ()=>{
             const teachers = TeacherFakeBuilder.theTeachers(4).build()
+
+            const teacherIds = [teachers[0].entityId.id, teachers[2].entityId.id]
             
             for(const teacher of teachers){
                 repository.create(teacher);
@@ -159,6 +178,39 @@ describe("Teacher integration tests", ()=>{
 
             expect(Array.isArray(output)).toBe(true);
             expect(output.length).toBe(2);
+
+            output = teacherIds.map(id => output.find(teacher => teacher.id === id));
+            output.forEach((outputteacher, index) => {
+                const teacher = teachers.find(s => s.entityId.id === teacherIds[index]);
+                
+                expect(outputteacher.id).toBe(teacher.entityId.id);
+                expect(outputteacher.first_name).toBe(teacher.first_name);
+                expect(outputteacher.last_name).toBe(teacher.last_name);
+                expect(outputteacher.date_of_birth.toISOString()).toBe(teacher.date_of_birth.toISOString());
+                expect(outputteacher.street).toBe(teacher.address.street);
+                expect(outputteacher.number).toBe(teacher.address.number);
+                expect(outputteacher.city).toBe(teacher.address.city);
+                expect(outputteacher.phone_number).toBe(teacher.phone_number);
+            });
+        })
+    })
+
+    describe("Delete teacher usecase", ()=>{
+        let deleteUsecase: DeleteTeacherUsecase;
+
+        beforeEach(()=>{
+            repository = new TeacherSequelizeRepository(TeacherModel);
+            deleteUsecase = new DeleteTeacherUsecase(repository);
+        })
+
+        it("should delete teacher", async ()=>{
+            const teacher = TeacherFakeBuilder.aTeacher().build();
+
+            await repository.create(teacher);
+
+            await deleteUsecase.execute({id: teacher.entityId.id})
+
+            await expect(repository.find(teacher.entityId)).resolves.toBeNull();
         })
     })
 
