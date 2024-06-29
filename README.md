@@ -11,10 +11,9 @@ This project is a development system of school management using NestJS that was 
 
 ### To do:
 - [ ] Generate others context
-- Teacher
+- <s>Teacher</s>
 - Class
 - Enrollment
 - Attendance
-- Grade
 - Grade
 - [ ] Add authetication system

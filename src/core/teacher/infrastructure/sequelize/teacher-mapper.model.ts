@@ -26,8 +26,6 @@ export class TeacherMapperModel{
             city: entity.address.city,
             phone_number: entity.phone_number,
             subject_specialization: subjectModels,
-            createdAt: entity.createdAt,
-            updatedAt: entity.updatedAt,
         }, {
             include: [{model: SubjectModel, as: "subject_specialization"}]
         });

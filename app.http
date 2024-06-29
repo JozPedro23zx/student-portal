@@ -1,5 +1,4 @@
-
-###
+### ========= STUDENT =========
 POST http://localhost:3000/students
 Content-Type: application/json
 
@@ -40,3 +39,52 @@ Content-Type: application/json
 
 ###
 DELETE http://localhost:3000/students/a1790da6-e796-4157-a712-57af227bcc25
+
+
+
+### ========= TEACHER =========
+POST http://localhost:3000/teachers
+Content-Type: application/json
+
+{
+    "first_name": "Eveling",
+    "last_name": "Morgan",
+    "subject_specialization": ["math"],
+    "date_of_birth": "1999-05-14", 
+    "street": "Flower Street",
+    "number": 123,
+    "city": "Old York",
+    "phone_number": "12345-6789"
+}
+
+###
+GET http://localhost:3000/teachers/bdba0dd5-0eb0-4833-8382-118e4e43552a
+
+###
+GET http://localhost:3000/teachers
+
+###
+GET http://localhost:3000/teachers
+Content-Type: application/json
+
+[
+    "bdba0dd5-0eb0-4833-8382-118e4e43552a",
+    "31c37ca9-65ae-4a55-95b9-b2bc1318264c"
+]
+
+###
+PATCH http://localhost:3000/teachers
+Content-Type: application/json
+
+{
+    "id": "bdba0dd5-0eb0-4833-8382-118e4e43552a",
+    "subject_to_add": "science",
+    "address": {
+        "street": "Flower Street 2",
+        "number": 1234,
+        "city": "Old York 2"
+    }
+}
+
+###
+DELETE http://localhost:3000/teachers/bdba0dd5-0eb0-4833-8382-118e4e43552a
