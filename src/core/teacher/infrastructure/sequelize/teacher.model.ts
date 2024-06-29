@@ -10,7 +10,6 @@ import {
     BelongsTo,
 } from 'sequelize-typescript';
 
-
 export type TeacherModelProps = {
     id: string;
     first_name: string;
@@ -21,16 +20,13 @@ export type TeacherModelProps = {
     number: number;
     city: string;
     phone_number: string;
-    createdAt: Date,
-    updatedAt: Date,
-}
+};
 
 export type SubjectModelProps = {
-    id: string,
-    type: string,
-    teacherId: string
-}
-
+    id: string;
+    type: string;
+    teacherId: string;
+};
 
 @Table({
     tableName: 'teachers',
@@ -38,7 +34,7 @@ export type SubjectModelProps = {
 })
 export class TeacherModel extends Model<TeacherModelProps> {
     @PrimaryKey
-    @Column({allowNull: false, type: DataType.UUID})
+    @Column({ allowNull: false, type: DataType.UUID, defaultValue: DataType.UUIDV4 })
     declare id: string;
 
     @Column({ allowNull: false, type: DataType.STRING(255) })
@@ -64,30 +60,22 @@ export class TeacherModel extends Model<TeacherModelProps> {
 
     @HasMany(() => SubjectModel)
     declare subject_specialization: SubjectModel[];
-
-    @Column({ allowNull: false, type: DataType.DATE })
-    declare createdAt: Date;
-
-    @Column({ allowNull: false, type: DataType.DATE })
-    declare updatedAt: Date;
 }
-
 
 @Table({
     tableName: 'subjects',
     timestamps: true,
 })
 export class SubjectModel extends Model<SubjectModelProps> {
-
     @PrimaryKey
-    @Column({ allowNull: false, type: DataType.UUID })
+    @Column({ allowNull: false, type: DataType.UUID, defaultValue: DataType.UUIDV4 })
     declare id: string;
 
     @Column({ allowNull: false, type: DataType.STRING(255) })
     declare type: string;
 
     @ForeignKey(() => TeacherModel)
-    @Column({ allowNull: false, type: DataType.STRING(255) })
+    @Column({ allowNull: false, type: DataType.UUID })
     declare teacherId: string;
 
     @BelongsTo(() => TeacherModel)

@@ -1,4 +1,4 @@
-import { IsDateString, IsNotEmpty, IsNumber, IsOptional, IsPhoneNumber, IsPositive, IsString, validateSync } from "class-validator";
+import { IsArray, IsDateString, IsNotEmpty, IsNumber, IsOptional, IsPhoneNumber, IsPositive, IsString, validateSync } from "class-validator";
 
 export type CreateTeacherInputProps = {
     first_name: string;
@@ -20,7 +20,7 @@ export default class CreateTeacherInput {
     @IsNotEmpty()
     last_name: string;
 
-    @IsString()
+    @IsArray()
     @IsNotEmpty()
     subject_specialization: string[];
 
