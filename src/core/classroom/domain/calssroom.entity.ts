@@ -44,7 +44,7 @@ export class ClassRoom extends BaseEntity {
         const diff = (end_year - start_year) * 12 + (end_month - start_month);
 
         if(diff > 10){
-            this.notifications.addError({message: "the period must be greater than 10", field: "start_date"})
+            this.notifications.addError({message: "the period must be less than 10", field: "start_date"})
         }
     }
 

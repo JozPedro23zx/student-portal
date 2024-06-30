@@ -9,13 +9,14 @@ export type ClassRoomModelProps = {
     updatedAt: Date;
 }
 
-@Table({ tableName: 'classroom', timestamps: true })
+@Table({tableName: 'classroom', timestamps: false})
 export class ClassRoomModel extends Model<ClassRoomModelProps> {
+
     @PrimaryKey
     @Column({ allowNull: false, type: DataType.UUID })
     declare id: string;
 
-    @Column({ allowNull: false, type: DataType.STRING })
+    @Column({ allowNull: false, type: DataType.STRING(225) })
     declare grade_level: string;
 
     @Column({ allowNull: false, type: DataType.DATE })
@@ -32,3 +33,4 @@ export class ClassRoomModel extends Model<ClassRoomModelProps> {
     @Column({ allowNull: false, type: DataType.DATE })
     declare updatedAt: Date;
 }
+
