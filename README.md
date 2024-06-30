@@ -12,7 +12,7 @@ This project is a development system of school management using NestJS that was 
 ### To do:
 - [ ] Generate others context
 - <s>Teacher</s>
-- Class
+- <s>Class</s>
 - Enrollment
 - Attendance
 - Grade

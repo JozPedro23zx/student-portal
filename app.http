@@ -88,3 +88,41 @@ Content-Type: application/json
 
 ###
 DELETE http://localhost:3000/teachers/bdba0dd5-0eb0-4833-8382-118e4e43552a
+
+
+### ========= TEACHER =========
+POST http://localhost:3000/classrooms
+Content-Type: application/json
+
+{
+    "grade_level": "1st Grade",
+    "start_date": "2023-02-01",
+    "end_date": "2023-12-01"
+}
+
+###
+GET http://localhost:3000/classrooms/986f33b3-ef5c-4874-8bd6-f06ab8230934
+
+###
+GET http://localhost:3000/classrooms
+
+###
+GET http://localhost:3000/classrooms
+Content-Type: application/json
+
+[
+    "986f33b3-ef5c-4874-8bd6-f06ab8230934",
+    "a56cd610-6fa7-4f9d-88df-924fe9d2c879"
+]
+
+###
+PATCH  http://localhost:3000/classrooms
+Content-Type: application/json
+
+{
+    "id": "986f33b3-ef5c-4874-8bd6-f06ab8230934",
+    "grade_level": "2st Grade"
+}
+
+###
+DELETE http://localhost:3000/classrooms/986f33b3-ef5c-4874-8bd6-f06ab8230934
