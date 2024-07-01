@@ -13,6 +13,7 @@ import UpdateStudentInput from '@core/student/application/update-student/input-u
 describe('StudentsController (e2e)', () => {
   
   let app: INestApplication;
+  let sequelize: Sequelize;
   let repository: IStudentRepository;
   
   beforeAll(async () => {
@@ -20,29 +21,26 @@ describe('StudentsController (e2e)', () => {
       imports: [AppModule],
     }).compile();
     
-    
     app = moduleFixture.createNestApplication();
-
-    const sequelize = moduleFixture.get<Sequelize>(getConnectionToken());
-    
-    await sequelize.sync({ force: true });
-
     app.useGlobalPipes(
       new ValidationPipe({
         errorHttpStatusCode: 422,
         transform: true,
       }),
     );
-  
     app.useGlobalFilters(
       new DomainValidationFilter(),
       new NotFoundFilter()
     )
-
     await app.init();
 
+    sequelize = moduleFixture.get<Sequelize>(getConnectionToken());
     repository = app.get<IStudentRepository>('StudentRepository');
   });
+
+  beforeEach(async ()=>{
+    await sequelize.sync({ force: true });
+  })
 
   afterAll(async () => {
     await app.close();

@@ -14,6 +14,7 @@ import CreateTeacherInput from '@core/teacher/application/create-teacher/input-c
 
 describe('TeachersController (e2e)', () => {
   let app: INestApplication;
+  let sequelize: Sequelize;
   let repository: ITeacherRepository;
 
   beforeAll(async () => {
@@ -22,26 +23,25 @@ describe('TeachersController (e2e)', () => {
     }).compile();
 
     app = moduleFixture.createNestApplication();
-
-    const sequelize = moduleFixture.get<Sequelize>(getConnectionToken());
-    await sequelize.sync({ force: true });
-
     app.useGlobalPipes(
       new ValidationPipe({
         errorHttpStatusCode: 422,
         transform: true,
       }),
     );
-
     app.useGlobalFilters(
       new DomainValidationFilter(),
       new NotFoundFilter()
     );
-
     await app.init();
 
+    sequelize = moduleFixture.get<Sequelize>(getConnectionToken());
     repository = app.get<ITeacherRepository>('TeacherRepository');
   });
+
+  beforeEach(async ()=>{
+    await sequelize.sync({ force: true });
+  })
 
   afterAll(async () => {
     await app.close();
