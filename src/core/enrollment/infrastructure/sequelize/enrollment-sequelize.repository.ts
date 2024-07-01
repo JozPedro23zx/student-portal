@@ -50,6 +50,16 @@ export class EnrollmentSequelizeRepository implements IEnrollmentRepository {
       });
       return models.map((model) => EnrollmentMapperModel.toEntity(model));
     }
+
+    async findByStudent(uuid: Uuid): Promise<Enrollment> {
+      const model = await this.enrollmentModel.findOne({where: {student_id: uuid.id}})
+      return model ? EnrollmentMapperModel.toEntity(model) : null;
+    }
+
+    async findByClassRoom(uuid: Uuid): Promise<Enrollment[]>{
+      const model = await this.enrollmentModel.findAll({where: {class_id: uuid.id}})
+      return model.map((model) => EnrollmentMapperModel.toEntity(model));
+    }
   
     async findAll(): Promise<Enrollment[]> {
       const models = await this.enrollmentModel.findAll();
