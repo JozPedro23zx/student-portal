@@ -25,9 +25,7 @@ export class StudentSequelizeRepository implements IStudentRepository{
         );
 
         if(affectedRows === 0){
-            throw new Error("Not found error");
-        }else if(affectedRows > 1){
-            throw new Error("More than line was affected");
+            throw new CustomNotFoundError(entity.entityId.id, Student.name)
         }
     }
 
