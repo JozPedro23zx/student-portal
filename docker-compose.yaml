@@ -20,4 +20,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - ./.docker/dbdata:/var/lib/postgres:delegated
+      - shcool_data:/var/lib/postgresql/data
+
+volumes:
+  shcool_data:

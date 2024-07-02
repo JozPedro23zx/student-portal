@@ -90,7 +90,7 @@ Content-Type: application/json
 DELETE http://localhost:3000/teachers/bdba0dd5-0eb0-4833-8382-118e4e43552a
 
 
-### ========= TEACHER =========
+### ========= CLASROOM =========
 POST http://localhost:3000/classrooms
 Content-Type: application/json
 
@@ -126,3 +126,37 @@ Content-Type: application/json
 
 ###
 DELETE http://localhost:3000/classrooms/986f33b3-ef5c-4874-8bd6-f06ab8230934
+
+
+
+### ========= Enrollment =========
+POST http://localhost:3000/enrollments
+Content-Type: application/json
+
+{
+    "student_id": "01f7cb15-783b-460a-ab78-0c7507c05aff",
+    "class_id": "96f95438-bd5d-4402-9a5c-c9a37dfd973b",
+    "enrollment_date": "2023-12-01",
+    "status": "enrolled"
+}
+
+###
+GET http://localhost:3000/enrollments/574315c6-9a23-4089-9961-bf042cab8da7
+
+###
+GET http://localhost:3000/enrollments
+
+###
+GET http://localhost:3000/enrollments
+Content-Type: application/json
+
+[
+    "574315c6-9a23-4089-9961-bf042cab8da7",
+    "f6b26838-8129-4391-9078-ca88c91de1b9"
+]
+
+###
+GET http://localhost:3000/enrollments/student/d3e5d0ff-a836-49b4-a907-4d2afa559f80
+
+###
+GET http://localhost:3000/enrollments/classroom/8716c6c4-afba-4a25-8faa-4870472e6552

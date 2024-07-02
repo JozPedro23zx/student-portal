@@ -121,7 +121,7 @@ describe('ClassRoomsController (e2e)', () => {
     });
 
     it('should update classroom', async () => {
-      const classRoom = ClassRoomFakeBuilder.aClassRoom().build();
+      const classRoom = ClassRoomFakeBuilder.aClassRoom().withStartDate(new Date('2024-03-11')).withEndDate(new Date('2024-12-10')).build();
       await repository.create(classRoom);
 
       const input: UpdateClassRoomInput = {
