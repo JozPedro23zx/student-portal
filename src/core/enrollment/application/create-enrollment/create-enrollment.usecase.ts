@@ -1,12 +1,12 @@
-import { EnrollmentSequelizeRepository } from "@core/enrollment/infrastructure/sequelize/enrollment-sequelize.repository";
 import CreateEnrollmentInput from "./input-create-enrollment.usecas";
 import { EnrollmentOutput, EnrollmentOutputMapper } from "../enrollment-output";
 import { Enrollment } from "@core/enrollment/domain/enrollment";
 import { EnrollmentStatus } from "@core/enrollment/domain/value-object/enrollmentStatus";
 import { IUseCase } from "@core/@shared/application/use-case-interface";
+import { IEnrollmentRepository } from "@core/enrollment/infrastructure/enrollment-interface.repository";
 
 export class CreateEnrollmentUseCase implements IUseCase<CreateEnrollmentInput, EnrollmentOutput>{
-    constructor(private enrollmentRepository: EnrollmentSequelizeRepository) {}
+    constructor(private enrollmentRepository: IEnrollmentRepository) {}
 
     async execute(input: CreateEnrollmentInput): Promise<EnrollmentOutput> {
         const enrollmentStatus = EnrollmentStatus.create(input.status)

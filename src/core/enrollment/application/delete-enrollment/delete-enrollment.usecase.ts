@@ -1,10 +1,10 @@
 import { IUseCase } from "@core/@shared/application/use-case-interface";
 import { Uuid } from "@core/@shared/domain/value-object/uuid.vo";
-import { EnrollmentSequelizeRepository } from "@core/enrollment/infrastructure/sequelize/enrollment-sequelize.repository";
+import { IEnrollmentRepository } from "@core/enrollment/infrastructure/enrollment-interface.repository";
 
 
 export class DeleteEnrollmentUseCase implements IUseCase<DeleteEnrollmentInput, void>{
-    constructor(private enrollmentRepository: EnrollmentSequelizeRepository) {}
+    constructor(private enrollmentRepository: IEnrollmentRepository) {}
 
     async execute(input: DeleteEnrollmentInput): Promise<void> {
         const uuid = new Uuid(input.id);

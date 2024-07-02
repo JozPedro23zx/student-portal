@@ -1,13 +1,13 @@
 import { IUseCase } from "@core/@shared/application/use-case-interface";
 import { EnrollmentOutput, EnrollmentOutputMapper } from "../enrollment-output";
-import { EnrollmentSequelizeRepository } from "@core/enrollment/infrastructure/sequelize/enrollment-sequelize.repository";
 import { Uuid } from "@core/@shared/domain/value-object/uuid.vo";
 import { CustomNotFoundError } from "@core/@shared/erros/not-found.error";
 import { Enrollment } from "@core/enrollment/domain/enrollment";
 import { EnrollmentStatus } from "@core/enrollment/domain/value-object/enrollmentStatus";
+import { IEnrollmentRepository } from "@core/enrollment/infrastructure/enrollment-interface.repository";
 
 export class UpdateEnrollmentUsecase implements IUseCase<UpdateEnrollmentInput, EnrollmentOutput>{
-    constructor(private enrollmentRepository: EnrollmentSequelizeRepository) {}
+    constructor(private enrollmentRepository: IEnrollmentRepository) {}
 
     async execute(input: UpdateEnrollmentInput): Promise<EnrollmentOutput> {
         const enrollment = await this.enrollmentRepository.find(new Uuid(input.id));

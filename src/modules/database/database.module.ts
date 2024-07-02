@@ -5,8 +5,9 @@ import { SequelizeModule } from '@nestjs/sequelize';
 import { CONFIG_SCHEMA_TYPE } from '../config/config.module';
 import { SubjectModel, TeacherModel } from '@core/teacher/infrastructure/sequelize/teacher.model';
 import { ClassRoomModel } from '@core/classroom/infrastructure/sequelize/classroom.model';
+import { EnrollmentModel } from '@core/enrollment/infrastructure/sequelize/enrollment.model';
 
-const models = [StudentModel, TeacherModel, SubjectModel, ClassRoomModel];
+const models = [StudentModel, TeacherModel, SubjectModel, ClassRoomModel, EnrollmentModel];
 
 @Module({
     imports: [
