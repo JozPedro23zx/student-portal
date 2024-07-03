@@ -4,11 +4,11 @@ import { Teacher } from "./teacher.entity";
 import { NotificationErrorInterface } from "@core/@shared/validation/notification-interface";
 
 export class TeacherDomainRules{
-    @IsNotEmpty({groups: ['name']})
+    @IsNotEmpty()
     @MaxLength(255)
     first_name: string;
 
-    @IsNotEmpty({groups: ['name']})
+    @IsNotEmpty()
     @MaxLength(255)
     last_name: string;
 
@@ -19,7 +19,7 @@ export class TeacherDomainRules{
 
 export class TeacherDomainValidator extends ClassValidator{
     validate(notification: NotificationErrorInterface, data: any): boolean {
-        return super.validate(notification, new TeacherDomainRules(data), ["name"]);
+        return super.validate(notification, new TeacherDomainRules(data), []);
     }
 }
 

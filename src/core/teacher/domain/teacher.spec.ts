@@ -95,7 +95,7 @@ describe('Teacher Entity', () => {
         expect(teacher.phone_number).toBe(newPhoneNumber);
     });
 
-    it("invalid name", ()=>{
+    it("invalid teacher name", ()=>{
         const address = new Address({
             street: "Street",
             number: 400,
@@ -114,10 +114,10 @@ describe('Teacher Entity', () => {
             updatedAt: new Date(),
         };
 
-        let student = new Teacher(teacherProps);
+        let teacher = new Teacher(teacherProps);
 
-        student.validate();
+        teacher.validate();
 
-        expect(student.notifications.hasErrors()).toBe(true);
+        expect(teacher.notifications.hasErrors()).toBe(true);
     })
 });

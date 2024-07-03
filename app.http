@@ -156,7 +156,53 @@ Content-Type: application/json
 ]
 
 ###
-GET http://localhost:3000/enrollments/student/d3e5d0ff-a836-49b4-a907-4d2afa559f80
+PATCH http://localhost:3000/enrollments
+Content-Type: application/json
+
+{
+    "id": "574315c6-9a23-4089-9961-bf042cab8da7",
+    "status": "completed"
+}
 
 ###
-GET http://localhost:3000/enrollments/classroom/8716c6c4-afba-4a25-8faa-4870472e6552
+DELETE http://localhost:3000/enrollments/f6b26838-8129-4391-9078-ca88c91de1b9
+
+
+### ========= Grade =========
+POST http://localhost:3000/grades
+Content-Type: application/json
+
+{
+    "student_id": "b297d858-d7b5-47ee-a250-48e11ab349af",
+    "subject": "english",
+    "exam": 8,
+    "assignment": 7,
+    "others": 9
+}
+
+###
+GET http://localhost:3000/grades/888acb2c-d07c-4365-b31c-941d3c280075
+
+###
+GET http://localhost:3000/grades
+
+###
+GET http://localhost:3000/grades
+Content-Type: application/json
+
+[
+    "888acb2c-d07c-4365-b31c-941d3c280075",
+    "5f43cbc7-6042-45e3-bacf-d5c953c84026"
+]
+
+###
+PATCH http://localhost:3000/grades
+Content-Type: application/json
+
+{
+    "id": "888acb2c-d07c-4365-b31c-941d3c280075",
+    "exam": 4
+}
+
+###
+DELETE http://localhost:3000/grades/5f43cbc7-6042-45e3-bacf-d5c953c84026
