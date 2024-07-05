@@ -11,11 +11,18 @@ import { TeacherFakeBuilder } from '@core/teacher/domain/teacher.fake';
 import UpdateTeacherInput from '@core/teacher/application/update-teacher/input-update-teacher';
 import { Uuid } from '@core/@shared/domain/value-object/uuid.vo';
 import CreateTeacherInput from '@core/teacher/application/create-teacher/input-create-teacher';
+import { JwtService } from '@nestjs/jwt';
+import { AuthService } from 'src/modules/auth/auth.service';
 
 describe('TeachersController (e2e)', () => {
   let app: INestApplication;
   let sequelize: Sequelize;
   let repository: ITeacherRepository;
+
+  let authService: AuthService;
+  let jwtService: JwtService;
+  let token: string;
+
 
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -35,11 +42,23 @@ describe('TeachersController (e2e)', () => {
     );
     await app.init();
 
+    authService = moduleFixture.get<AuthService>(AuthService);
+    jwtService = moduleFixture.get<JwtService>(JwtService);
+    const payload = {
+      email: "admin@admin",
+      name: 'test',
+      realm_access: {
+        roles: ['admin', 'teacher']
+      }
+    };
+
+    token = jwtService.sign(payload);
+
     sequelize = moduleFixture.get<Sequelize>(getConnectionToken());
     repository = app.get<ITeacherRepository>('TeacherRepository');
   });
 
-  beforeEach(async ()=>{
+  beforeEach(async () => {
     await sequelize.sync({ force: true });
   })
 
@@ -57,6 +76,7 @@ describe('TeachersController (e2e)', () => {
 
       return request(app.getHttpServer())
         .post('/teachers')
+        .set('Authorization', `Bearer ${token}`)
         .send(createTeacherInput)
         .expect(422);
     });
@@ -75,6 +95,7 @@ describe('TeachersController (e2e)', () => {
 
       return request(app.getHttpServer())
         .post('/teachers')
+        .set('Authorization', `Bearer ${token}`)
         .send(createTeacherInput)
         .expect(201)
         .expect((res) => {
@@ -88,6 +109,7 @@ describe('TeachersController (e2e)', () => {
       const id = '2ea1864c-a1b1-4f6c-a197-bf1db3a86c7b';
       return request(app.getHttpServer())
         .get(`/teachers/${id}`)
+        .set('Authorization', `Bearer ${token}`)
         .expect(404);
     });
 
@@ -98,6 +120,7 @@ describe('TeachersController (e2e)', () => {
       return request(app.getHttpServer())
         .get(`/teachers/${teacher.entityId.id}`)
         .expect(200)
+        .set('Authorization', `Bearer ${token}`)
         .expect((res) => {
           expect(res.body.id).toBe(teacher.entityId.id);
         });
@@ -112,6 +135,7 @@ describe('TeachersController (e2e)', () => {
       };
       return request(app.getHttpServer())
         .patch('/teachers')
+        .set('Authorization', `Bearer ${token}`)
         .send(input)
         .expect(404);
     });
@@ -127,6 +151,7 @@ describe('TeachersController (e2e)', () => {
 
       return request(app.getHttpServer())
         .patch('/teachers')
+        .set('Authorization', `Bearer ${token}`)
         .send(input)
         .expect(200)
         .expect((res) => {
@@ -140,6 +165,7 @@ describe('TeachersController (e2e)', () => {
       const id = '2ea1864c-a1b1-4f6c-a197-bf1db3a86c7b';
       return request(app.getHttpServer())
         .delete(`/teachers/${id}`)
+        .set('Authorization', `Bearer ${token}`)
         .expect(404);
     });
 
@@ -149,6 +175,7 @@ describe('TeachersController (e2e)', () => {
 
       return request(app.getHttpServer())
         .delete(`/teachers/${teacher.entityId.id}`)
+        .set('Authorization', `Bearer ${token}`)
         .expect(200)
         .expect(async () => {
           await expect(repository.find(new Uuid(teacher.entityId.id))).resolves.toBeNull();

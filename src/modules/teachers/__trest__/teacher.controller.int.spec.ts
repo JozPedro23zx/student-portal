@@ -7,6 +7,7 @@ import { TeachersModule } from '../teachers.module';
 import { TeacherOutput } from '@core/teacher/application/teacher-output';
 import { TeacherFakeBuilder } from '@core/teacher/domain/teacher.fake';
 import { Subject } from '@core/teacher/domain/value-object/subject.vo';
+import { AuthModule } from 'src/modules/auth/auth.module';
 
 describe('TeachersController', () => {
   let controller: TeachersController;
@@ -14,7 +15,7 @@ describe('TeachersController', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [MyConfigModule.forRoot(), DatabaseModule, TeachersModule]
+      imports: [MyConfigModule.forRoot(), DatabaseModule, TeachersModule, AuthModule]
     }).compile();
 
     controller = module.get<TeachersController>(TeachersController);

@@ -12,6 +12,7 @@ import { DeleteEnrollmentUseCase } from '@core/enrollment/application/delete-enr
 import { FindAllEnrollmentsUseCase } from '@core/enrollment/application/find/find-all-enrollment.usecase';
 import { FindEnrollmentUseCase } from '@core/enrollment/application/find/find-enrollment.usecase';
 import { MyConfigModule } from '../config/config.module';
+import { AuthModule } from '../auth/auth.module';
 
 describe('Enrollments Controller integration tests', () => {
   let controller: EnrollmentsController;
@@ -23,6 +24,7 @@ describe('Enrollments Controller integration tests', () => {
         MyConfigModule.forRoot(),
         DatabaseModule,
         EnrollmentsModule,
+        AuthModule
       ],
     }).compile();
 

@@ -14,6 +14,7 @@ import { Subject } from '@core/grade/domain/value-object/subject.vo';
 import { Subjects } from '@core/teacher/domain/value-object/subject.vo';
 import { Grade } from '@core/grade/domain/grade.entity';
 import { Uuid } from '@core/@shared/domain/value-object/uuid.vo';
+import { AuthModule } from '../auth/auth.module';
 
 describe('GradesController', () => {
   let controller: GradesController;
@@ -25,6 +26,7 @@ describe('GradesController', () => {
           MyConfigModule.forRoot(),
           DatabaseModule,
           GradesModule,
+          AuthModule
       ]
   }).compile();
 

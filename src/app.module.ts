@@ -6,9 +6,10 @@ import { TeachersModule } from './modules/teachers/teachers.module';
 import { ClassroomsModule } from './modules/classrooms/classrooms.module';
 import { EnrollmentsModule } from './modules/enrollments/enrollments.module';
 import { GradesModule } from './modules/grades/grades.module';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
-  imports: [MyConfigModule.forRoot(), DatabaseModule, StudentsModule, TeachersModule, ClassroomsModule, EnrollmentsModule, GradesModule],
+  imports: [MyConfigModule.forRoot(), DatabaseModule, StudentsModule, TeachersModule, ClassroomsModule, EnrollmentsModule, GradesModule, AuthModule],
   providers: [],
 })
 export class AppModule {}

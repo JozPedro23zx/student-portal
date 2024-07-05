@@ -7,6 +7,8 @@ import { DeleteClassRoomUsecase } from "@core/classroom/application/delete-class
 import { Test, TestingModule } from "@nestjs/testing";
 import CreateClassRoomInput from "@core/classroom/application/create-classroom/input-create-classroom";
 import UpdateClassRoomInput from "@core/classroom/application/update-classroom/input-update-classroom";
+import { AuthGuard } from "src/modules/auth/auth.guard";
+import { JwtService } from "@nestjs/jwt";
 
 
 describe("ClassroomsController unit tests", () => {
@@ -16,6 +18,15 @@ describe("ClassroomsController unit tests", () => {
   let findAllUsecase: FindAllClassRoomsUsecase;
   let updateUsecase: UpdateClassRoomUseCase;
   let deleteUsecase: DeleteClassRoomUsecase;
+
+  const mockAuthGuard = {
+    canActivate: jest.fn(() => true),
+  };
+
+  const mockAuthService = {
+    validateUser: jest.fn(),
+    login: jest.fn(),
+  };
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -40,6 +51,14 @@ describe("ClassroomsController unit tests", () => {
         {
           provide: DeleteClassRoomUsecase,
           useValue: { execute: jest.fn() },
+        },
+        {
+          provide: AuthGuard,
+          useValue: mockAuthGuard,
+        },
+        {
+          provide: JwtService,
+          useValue: mockAuthService,
         },
       ],
     }).compile();

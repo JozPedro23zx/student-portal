@@ -14,6 +14,7 @@ import { ClassRoomOutput } from '@core/classroom/application/output';
 import { ClassRoomFakeBuilder } from '@core/classroom/domain/classroom.fake';
 import { ClassRoom } from '@core/classroom/domain/calssroom.entity';
 import UpdateClassRoomInput from '@core/classroom/application/update-classroom/input-update-classroom';
+import { AuthModule } from 'src/modules/auth/auth.module';
 
 describe("ClassroomsController integration tests", () => {
   let controller: ClassroomsController;
@@ -25,6 +26,7 @@ describe("ClassroomsController integration tests", () => {
         MyConfigModule.forRoot(),
         DatabaseModule,
         ClassroomsModule,
+        AuthModule,
       ]
     }).compile();
 
@@ -32,7 +34,7 @@ describe("ClassroomsController integration tests", () => {
     repository = module.get<IClassRoomRepository>('ClassRoomRepository');
   });
 
-  it('should be defined', () => {
+  it('should be definedA', () => {
     expect(controller).toBeDefined();
     expect(controller['createUsecase']).toBeInstanceOf(CreateClassRoomUseCase);
     expect(controller['updateUsecase']).toBeInstanceOf(UpdateClassRoomUseCase);

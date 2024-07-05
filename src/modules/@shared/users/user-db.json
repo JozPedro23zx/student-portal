@@ -1,0 +1,20 @@
+[
+    {
+        "id": "123",
+        "email": "stdent@user.com",
+        "password": "s123",
+        "type": "student"
+    },
+    {
+        "id": "456",
+        "email": "teacher@user.com",
+        "password": "t123",
+        "type": "teacher"
+    },
+    {
+        "id": "789",
+        "email": "admin@user.com",
+        "password": "a123",
+        "type": "admin"
+    }
+]

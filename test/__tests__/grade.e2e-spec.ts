@@ -3,18 +3,24 @@ import { Grade } from "@core/grade/domain/grade.entity";
 import { Subject, Subjects } from "@core/grade/domain/value-object/subject.vo";
 import { IGradeRepository } from "@core/grade/infrastructure/grade.repository";
 import { INestApplication, ValidationPipe } from "@nestjs/common";
+import { JwtService } from "@nestjs/jwt";
 import { getConnectionToken } from "@nestjs/sequelize";
 import { Test, TestingModule } from "@nestjs/testing";
 import { Sequelize } from "sequelize";
 import { AppModule } from "src/app.module";
 import { DomainValidationFilter } from "src/modules/@shared/filters/domain-validation/domain-validation.filter";
 import { NotFoundFilter } from "src/modules/@shared/filters/not-found/not-found.filter";
+import { AuthService } from "src/modules/auth/auth.service";
 import request from 'supertest';
 
 describe('GradesController (e2e)', () => {
     let app: INestApplication;
     let sequelize: Sequelize;
     let repository: IGradeRepository;
+
+    let authService: AuthService;
+    let jwtService: JwtService;
+    let token: string;
   
     beforeAll(async () => {
       const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -33,6 +39,18 @@ describe('GradesController (e2e)', () => {
         new NotFoundFilter()
       )
       await app.init();
+
+      authService = moduleFixture.get<AuthService>(AuthService);
+      jwtService = moduleFixture.get<JwtService>(JwtService);
+      const payload = { 
+        email: "admin@admin",
+        name: 'test',
+        realm_access: {
+            roles: ['admin', 'teacher']
+        }
+      };
+  
+      token = jwtService.sign(payload);
   
       sequelize = moduleFixture.get<Sequelize>(getConnectionToken());
       repository = app.get<IGradeRepository>('GradeRepository');
@@ -68,6 +86,7 @@ describe('GradesController (e2e)', () => {
   
         return request(app.getHttpServer())
           .post('/grades')
+          .set('Authorization', `Bearer ${token}`)
           .send(createGradeInput)
           .expect(422);
       });
@@ -84,6 +103,7 @@ describe('GradesController (e2e)', () => {
             
         return request(app.getHttpServer())
           .post('/grades')
+          .set('Authorization', `Bearer ${token}`)
           .send(createGradeInput)
           .expect(422)
       });
@@ -99,6 +119,7 @@ describe('GradesController (e2e)', () => {
   
         return request(app.getHttpServer())
           .post('/grades')
+          .set('Authorization', `Bearer ${token}`)
           .send(createGradeInput)
           .expect(201)
           .expect((res) => {
@@ -112,6 +133,7 @@ describe('GradesController (e2e)', () => {
         const id = '2ea1864c-a1b1-4f6c-a197-bf1db3a86c7b';
         return request(app.getHttpServer())
           .get(`/grades/${id}`)
+          .set('Authorization', `Bearer ${token}`)
           .expect(404);
       });
   
@@ -121,6 +143,7 @@ describe('GradesController (e2e)', () => {
   
         return request(app.getHttpServer())
           .get(`/grades/${grade.entityId.id}`)
+          .set('Authorization', `Bearer ${token}`)
           .expect(200);
       });
     });
@@ -133,6 +156,7 @@ describe('GradesController (e2e)', () => {
         };
         return request(app.getHttpServer())
           .patch(`/grades`)
+          .set('Authorization', `Bearer ${token}`)
           .send(input)
           .expect(404);
       });
@@ -147,6 +171,7 @@ describe('GradesController (e2e)', () => {
         };
         return request(app.getHttpServer())
           .patch(`/grades`)
+          .set('Authorization', `Bearer ${token}`)
           .send(input)
           .expect(200)
           .expect((res) => {
@@ -160,6 +185,7 @@ describe('GradesController (e2e)', () => {
         const id = '2ea1864c-a1b1-4f6c-a197-bf1db3a86c7b';
         return request(app.getHttpServer())
           .delete(`/grades/${id}`)
+          .set('Authorization', `Bearer ${token}`)
           .expect(404);
       });
   
@@ -169,6 +195,7 @@ describe('GradesController (e2e)', () => {
   
         return request(app.getHttpServer())
           .delete(`/grades/${grade.entityId.id}`)
+          .set('Authorization', `Bearer ${token}`)
           .expect(200)
           .expect(async () => {
             await expect(repository.find(grade.entityId)).resolves.toBeNull();

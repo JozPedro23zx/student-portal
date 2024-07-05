@@ -3,12 +3,14 @@ import UpdateClassRoomInput from '@core/classroom/application/update-classroom/i
 import { ClassRoomFakeBuilder } from '@core/classroom/domain/classroom.fake';
 import { IClassRoomRepository } from '@core/classroom/infrastructure/classroom-interface.repository';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 import { getConnectionToken } from '@nestjs/sequelize';
 import { TestingModule, Test } from '@nestjs/testing';
 import { Sequelize } from 'sequelize-typescript';
 import { AppModule } from 'src/app.module';
 import { DomainValidationFilter } from 'src/modules/@shared/filters/domain-validation/domain-validation.filter';
 import { NotFoundFilter } from 'src/modules/@shared/filters/not-found/not-found.filter';
+import { AuthService } from 'src/modules/auth/auth.service';
 import request from 'supertest';
 
 
@@ -16,6 +18,10 @@ describe('ClassRoomsController (e2e)', () => {
   let app: INestApplication;
   let sequelize: Sequelize;
   let repository: IClassRoomRepository;
+
+  let authService: AuthService;
+  let jwtService: JwtService;
+  let token: string;
 
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -34,6 +40,18 @@ describe('ClassRoomsController (e2e)', () => {
       new NotFoundFilter()
     );
     await app.init();
+
+    authService = moduleFixture.get<AuthService>(AuthService);
+    jwtService = moduleFixture.get<JwtService>(JwtService);
+    const payload = { 
+      email: "admin@admin",
+      name: 'test',
+      realm_access: {
+          roles: ['admin']
+      }
+    };
+
+    token = jwtService.sign(payload);
      
     sequelize = moduleFixture.get<Sequelize>(getConnectionToken());
     repository = app.get<IClassRoomRepository>('ClassRoomRepository');
@@ -56,6 +74,7 @@ describe('ClassRoomsController (e2e)', () => {
 
       return request(app.getHttpServer())
         .post('/classrooms')
+        .set('Authorization', `Bearer ${token}`)
         .send(createClassRoomInput)
         .expect(422);
     });
@@ -69,6 +88,7 @@ describe('ClassRoomsController (e2e)', () => {
 
       return request(app.getHttpServer())
         .post('/classrooms')
+        .set('Authorization', `Bearer ${token}`)
         .send(createClassRoomInput)
         .expect(422);
     });
@@ -82,6 +102,7 @@ describe('ClassRoomsController (e2e)', () => {
 
       return request(app.getHttpServer())
         .post('/classrooms')
+        .set('Authorization', `Bearer ${token}`)
         .send(createClassRoomInput)
         .expect(201)
         .expect((res) => {
@@ -95,6 +116,7 @@ describe('ClassRoomsController (e2e)', () => {
       const id = '2ea1864c-a1b1-4f6c-a197-bf1db3a86c7b';
       return request(app.getHttpServer())
         .get(`/classrooms/${id}`)
+        .set('Authorization', `Bearer ${token}`)
         .expect(404);
     });
 
@@ -104,6 +126,7 @@ describe('ClassRoomsController (e2e)', () => {
 
       return request(app.getHttpServer())
         .get(`/classrooms/${classRoom.entityId.id}`)
+        .set('Authorization', `Bearer ${token}`)
         .expect(200);
     });
   });
@@ -116,6 +139,7 @@ describe('ClassRoomsController (e2e)', () => {
       };
       return request(app.getHttpServer())
         .patch(`/classrooms`)
+        .set('Authorization', `Bearer ${token}`)
         .send(input)
         .expect(404);
     });
@@ -130,6 +154,7 @@ describe('ClassRoomsController (e2e)', () => {
       };
       return request(app.getHttpServer())
         .patch(`/classrooms`)
+        .set('Authorization', `Bearer ${token}`)
         .send(input)
         .expect(200)
         .expect((res) => {
@@ -143,6 +168,7 @@ describe('ClassRoomsController (e2e)', () => {
       const id = '2ea1864c-a1b1-4f6c-a197-bf1db3a86c7b';
       return request(app.getHttpServer())
         .delete(`/classrooms/${id}`)
+        .set('Authorization', `Bearer ${token}`)
         .expect(404);
     });
 
@@ -154,6 +180,7 @@ describe('ClassRoomsController (e2e)', () => {
 
       return request(app.getHttpServer())
         .delete(`/classrooms/${classRoom.entityId.id}`)
+        .set('Authorization', `Bearer ${token}`)
         .expect(200)
         .expect(async (res) => {
           await expect(repository.find(classRoom.entityId)).resolves.toBeNull();

@@ -5,7 +5,10 @@ import { FindAllTeacherUsecase } from '@core/teacher/application/find-teacher/fi
 import { FindTeacherUsecase } from '@core/teacher/application/find-teacher/find-teacher.usecase';
 import UpdateTeacherInput from '@core/teacher/application/update-teacher/input-update-teacher';
 import { UpdateTeacherUsecase } from '@core/teacher/application/update-teacher/update-teacher.usecase';
-import { Controller, Get, Post, Body, Patch, Param, Delete, Inject } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Inject, UseGuards } from '@nestjs/common';
+import { AdminGuard } from '../auth/admin.guard';
+import { AuthGuard } from '../auth/auth.guard';
+import { TeacherGuard } from '../auth/teacher.guard';
 
 @Controller('teachers')
 export class TeachersController {
@@ -24,26 +27,31 @@ export class TeachersController {
   @Inject(DeleteTeacherUsecase)
   private deleteUsecase: DeleteTeacherUsecase;
 
+  @UseGuards(AuthGuard, AdminGuard)
   @Post()
   async create(@Body() createTeacherDto: CreateTeacherInput) {
     return await this.createUsecase.execute(createTeacherDto)
   }
 
+  @UseGuards(AuthGuard, TeacherGuard)
   @Get()
   async findAll(@Body() ids?: string[]) {
     return await this.findAllUsecase.execute({ ids })
   }
 
+  @UseGuards(AuthGuard, TeacherGuard)
   @Get(':id')
   async findOne(@Param('id') id: string) {
     return await this.findUsecase.execute({ id })
   }
 
+  @UseGuards(AuthGuard, AdminGuard)
   @Patch()
   async update(@Body() updateTeacherDto: UpdateTeacherInput) {
     return await this.updateUsecase.execute(updateTeacherDto)
   }
 
+  @UseGuards(AuthGuard, AdminGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.deleteUsecase.execute({ id });

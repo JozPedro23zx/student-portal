@@ -9,6 +9,8 @@ import { getConnectionToken } from '@nestjs/sequelize';
 import { Sequelize } from 'sequelize';
 import { DomainValidationFilter } from 'src/modules/@shared/filters/domain-validation/domain-validation.filter';
 import { NotFoundFilter } from 'src/modules/@shared/filters/not-found/not-found.filter';
+import { JwtService } from '@nestjs/jwt';
+import { AuthService } from 'src/modules/auth/auth.service';
 
 
 describe('EnrollmentsController (e2e)', () => {
@@ -16,6 +18,10 @@ describe('EnrollmentsController (e2e)', () => {
     let app: INestApplication;
     let sequelize: Sequelize;
     let repository: IEnrollmentRepository;
+
+    let authService: AuthService;
+    let jwtService: JwtService;
+    let token: string;
     
     beforeAll(async () => {
       const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -34,6 +40,18 @@ describe('EnrollmentsController (e2e)', () => {
         new NotFoundFilter()
       )
       await app.init();
+
+      authService = moduleFixture.get<AuthService>(AuthService);
+      jwtService = moduleFixture.get<JwtService>(JwtService);
+      const payload = { 
+        email: "admin@admin",
+        name: 'test',
+        realm_access: {
+            roles: ['admin']
+        }
+      };
+  
+      token = jwtService.sign(payload);
   
       sequelize = moduleFixture.get<Sequelize>(getConnectionToken());
       repository = app.get<IEnrollmentRepository>('EnrollmentRepository');
@@ -56,6 +74,7 @@ describe('EnrollmentsController (e2e)', () => {
     
         return request(app.getHttpServer())
           .post('/enrollments')
+          .set('Authorization', `Bearer ${token}`)
           .send(createEnrollmentInput)
           .expect(422);
       });
@@ -70,6 +89,7 @@ describe('EnrollmentsController (e2e)', () => {
   
         return request(app.getHttpServer())
           .post('/enrollments')
+          .set('Authorization', `Bearer ${token}`)
           .send(createEnrollmentInput)
           .expect(422);
       });
@@ -84,6 +104,7 @@ describe('EnrollmentsController (e2e)', () => {
   
         return request(app.getHttpServer())
           .post('/enrollments')
+          .set('Authorization', `Bearer ${token}`)
           .send(createEnrollmentInput)
           .expect(201)
           .expect((res) => {
@@ -97,6 +118,7 @@ describe('EnrollmentsController (e2e)', () => {
         const id = '2ea1864c-a1b1-4f6c-a197-bf1db3a86c7b';
         return request(app.getHttpServer())
           .get(`/enrollments/${id}`)
+          .set('Authorization', `Bearer ${token}`)
           .expect(404);
       });
   
@@ -106,6 +128,7 @@ describe('EnrollmentsController (e2e)', () => {
   
         return request(app.getHttpServer())
           .get(`/enrollments/${enrollment.entityId.id}`)
+          .set('Authorization', `Bearer ${token}`)
           .expect(200)
           .expect((res) => {
             expect(res.body.id).toBe(enrollment.entityId.id);
@@ -121,6 +144,7 @@ describe('EnrollmentsController (e2e)', () => {
         };
         return request(app.getHttpServer())
           .patch('/enrollments')
+          .set('Authorization', `Bearer ${token}`)
           .send(input)
           .expect(404);
       });
@@ -135,6 +159,7 @@ describe('EnrollmentsController (e2e)', () => {
         };
         return request(app.getHttpServer())
           .patch('/enrollments')
+          .set('Authorization', `Bearer ${token}`)
           .send(input)
           .expect(200)
           .expect((res) => {
@@ -148,6 +173,7 @@ describe('EnrollmentsController (e2e)', () => {
         const id = '2ea1864c-a1b1-4f6c-a197-bf1db3a86c7b';
         return request(app.getHttpServer())
           .delete(`/enrollments/${id}`)
+          .set('Authorization', `Bearer ${token}`)
           .expect(404);
       });
   
@@ -157,6 +183,7 @@ describe('EnrollmentsController (e2e)', () => {
   
         return request(app.getHttpServer())
           .delete(`/enrollments/${enrollment.entityId.id}`)
+          .set('Authorization', `Bearer ${token}`)
           .expect(200)
           .expect(async () => {
             await expect(repository.find(enrollment.entityId)).resolves.toBeNull();

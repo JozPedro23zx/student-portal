@@ -12,6 +12,7 @@ import { MyConfigModule } from "src/modules/config/config.module";
 import { StudentOutput } from "@core/student/application/output/student-output";
 import { StudentFakeBuilder } from "@core/student/domain/student.fake";
 import { Student } from "@core/student/domain/student.entity";
+import { AuthModule } from "src/modules/auth/auth.module";
 
 describe("Student Controller integration tests", ()=>{
     let controller: StudentsController;
@@ -23,6 +24,7 @@ describe("Student Controller integration tests", ()=>{
                 MyConfigModule.forRoot(),
                 DatabaseModule,
                 StudentsModule,
+                AuthModule
             ]
         }).compile();
 

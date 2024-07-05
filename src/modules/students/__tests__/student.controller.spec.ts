@@ -5,6 +5,8 @@ import { UpdateStudentUsecase } from "@core/student/application/update-student/u
 import { DeleteStudentUsecase } from "@core/student/application/delete-student/delete-student";
 import { FindStudentUsecase } from "@core/student/application/find-student/find-student.usecase";
 import { FindAllStudentUsecase } from "@core/student/application/find-student/find-all-students.usecase";
+import { AuthGuard } from "src/modules/auth/auth.guard";
+import { JwtService } from "@nestjs/jwt";
 
 
 describe("Student Controller unit tests", ()=>{
@@ -14,6 +16,15 @@ describe("Student Controller unit tests", ()=>{
     let findAllUsecase: FindAllStudentUsecase;
     let deleteUsecase: DeleteStudentUsecase;
     let updateUsecase: UpdateStudentUsecase;
+
+    const mockAuthGuard = {
+      canActivate: jest.fn(() => true),
+    };
+  
+    const mockAuthService = {
+      validateUser: jest.fn(),
+      login: jest.fn(),
+    };
 
     beforeEach(async () => {
         const module: TestingModule = await Test.createTestingModule({
@@ -38,6 +49,14 @@ describe("Student Controller unit tests", ()=>{
             {
               provide: DeleteStudentUsecase,
               useValue: { execute: jest.fn() },
+            },
+            {
+              provide: AuthGuard,
+              useValue: mockAuthGuard,
+            },
+            {
+              provide: JwtService,
+              useValue: mockAuthService,
             },
           ],
         }).compile();
