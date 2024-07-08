@@ -35,7 +35,6 @@ lerna-debug.log*
 !.vscode/extensions.json
 
 #Others
-.env
 .docker
 .vscode
 .keys
