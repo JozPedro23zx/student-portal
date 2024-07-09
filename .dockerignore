@@ -1,0 +1,12 @@
+.git/
+.github/
+.keys/
+.vscode/
+node_modules/
+dist/
+api.http
+docker-compose*.yaml
+docker-compose*.yml
+Dockerfile
+Dockerfile.prod
+*.md
