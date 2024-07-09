@@ -1,7 +1,8 @@
-@jwtToken=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQHVzZXIuY29tIiwibmFtZSI6InRlc3QiLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsiYWRtaW4iXX0sImlhdCI6MTcyMDE5MDMxNywiZXhwIjoxNzIwMjc2NzE3fQ.MDEHfEBWdqiSt7AVTKTc_h6ogCheujvaI8jPM5UqsnuKxxiddQERKscXqELCJPUfUiKFzS4e631BYjjc5Z7H-Za9hyc5YIf2SQc2xc-ZWleUhHLqaCAr2hRmWxMvtcOx5a9PyojBtcOkN02UIyHWtz3orswZcJqCB7CyNyfsfAHN0sawCj_ZDIzUhPCJ6XnvslrouRME7-KpxpakRAD2Xy2Do7KKb4k0mgEcf31PAK08wq_b53SRlYmgUVNC0qQ1Yn8cP47gDG9zGgfBL2HbHSU611PlfTJsPbfnViB-XEJTj6i26IHiQPetRrZvXtoAVy8WQ7HDGT3iqyroX3DpCQ
+@jwtToken=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQHVzZXIuY29tIiwibmFtZSI6InRlc3QiLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsiYWRtaW4iLCJ0ZWFjaGVyIl19LCJpYXQiOjE3MjA1MzYzNzAsImV4cCI6MTcyMDYyMjc3MH0.Qn7BUYZEaJ2haI48uo7TQwCU88GrtDi7BZ7ZoErqLsT5dy9u5q3F1TNUuwHM8hyoi5KtNxwlzNbcmuub2b4GDUMoSZ6R031fesIT7j3vlQjZXO9f_S15m--xk2gQwhFMnwIfeQ2B8ElRFsCj4P6hCmONN_l6_LoBf2ug47Ok14WNizBfHMCQ33FZA-UPNGB07_NIhDhwBuv4FlKHMLpHNsI3xDpwkJM8iTnIiz-nrB1VxSJzSoeTk0GxgkMOwO25McoyHiAeEP-RfJWBW1S6daxeCTM0_L68-tvtrAgxP8XfMLtAGwyGFEWa4UggMbJyRUytpM3HD9MkiR2BXQ1MEg
 
 ### ========= STUDENT =========
 POST http://localhost:3000/students
+Authorization: Bearer {{jwtToken}}
 Content-Type: application/json
 
 {
@@ -17,12 +18,15 @@ Content-Type: application/json
 
 ###
 GET http://localhost:3000/students/a1790da6-e796-4157-a712-57af227bcc25
+Authorization: Bearer {{jwtToken}}
 
 ###
 GET http://localhost:3000/students
+Authorization: Bearer {{jwtToken}}
 
 ###
 GET http://localhost:3000/students
+Authorization: Bearer {{jwtToken}}
 Content-Type: application/json
 
 [
@@ -32,6 +36,7 @@ Content-Type: application/json
 
 ###
 PATCH http://localhost:3000/students
+Authorization: Bearer {{jwtToken}}
 Content-Type: application/json
 
 {
@@ -41,11 +46,13 @@ Content-Type: application/json
 
 ###
 DELETE http://localhost:3000/students/a1790da6-e796-4157-a712-57af227bcc25
+Authorization: Bearer {{jwtToken}}
 
 
 
 ### ========= TEACHER =========
 POST http://localhost:3000/teachers
+Authorization: Bearer {{jwtToken}}
 Content-Type: application/json
 
 {
@@ -61,12 +68,15 @@ Content-Type: application/json
 
 ###
 GET http://localhost:3000/teachers/bdba0dd5-0eb0-4833-8382-118e4e43552a
+Authorization: Bearer {{jwtToken}}
 
 ###
 GET http://localhost:3000/teachers
+Authorization: Bearer {{jwtToken}}
 
 ###
 GET http://localhost:3000/teachers
+Authorization: Bearer {{jwtToken}}
 Content-Type: application/json
 
 [
@@ -76,6 +86,7 @@ Content-Type: application/json
 
 ###
 PATCH http://localhost:3000/teachers
+Authorization: Bearer {{jwtToken}}
 Content-Type: application/json
 
 {
@@ -90,10 +101,12 @@ Content-Type: application/json
 
 ###
 DELETE http://localhost:3000/teachers/bdba0dd5-0eb0-4833-8382-118e4e43552a
+Authorization: Bearer {{jwtToken}}
 
 
 ### ========= CLASROOM =========
 POST http://localhost:3000/classrooms
+Authorization: Bearer {{jwtToken}}
 Content-Type: application/json
 
 {
@@ -104,12 +117,15 @@ Content-Type: application/json
 
 ###
 GET http://localhost:3000/classrooms/986f33b3-ef5c-4874-8bd6-f06ab8230934
+Authorization: Bearer {{jwtToken}}
 
 ###
 GET http://localhost:3000/classrooms
+Authorization: Bearer {{jwtToken}}
 
 ###
 GET http://localhost:3000/classrooms
+Authorization: Bearer {{jwtToken}}
 Content-Type: application/json
 
 [
@@ -119,6 +135,7 @@ Content-Type: application/json
 
 ###
 PATCH  http://localhost:3000/classrooms
+Authorization: Bearer {{jwtToken}}
 Content-Type: application/json
 
 {
@@ -128,11 +145,13 @@ Content-Type: application/json
 
 ###
 DELETE http://localhost:3000/classrooms/986f33b3-ef5c-4874-8bd6-f06ab8230934
+Authorization: Bearer {{jwtToken}}
 
 
 
 ### ========= Enrollment =========
 POST http://localhost:3000/enrollments
+Authorization: Bearer {{jwtToken}}
 Content-Type: application/json
 
 {
@@ -144,12 +163,15 @@ Content-Type: application/json
 
 ###
 GET http://localhost:3000/enrollments/574315c6-9a23-4089-9961-bf042cab8da7
+Authorization: Bearer {{jwtToken}}
 
 ###
 GET http://localhost:3000/enrollments
+Authorization: Bearer {{jwtToken}}
 
 ###
 GET http://localhost:3000/enrollments
+Authorization: Bearer {{jwtToken}}
 Content-Type: application/json
 
 [
@@ -159,6 +181,7 @@ Content-Type: application/json
 
 ###
 PATCH http://localhost:3000/enrollments
+Authorization: Bearer {{jwtToken}}
 Content-Type: application/json
 
 {
@@ -168,10 +191,12 @@ Content-Type: application/json
 
 ###
 DELETE http://localhost:3000/enrollments/f6b26838-8129-4391-9078-ca88c91de1b9
+Authorization: Bearer {{jwtToken}}
 
 
 ### ========= Grade =========
 POST http://localhost:3000/grades
+Authorization: Bearer {{jwtToken}}
 Content-Type: application/json
 
 {
@@ -184,12 +209,15 @@ Content-Type: application/json
 
 ###
 GET http://localhost:3000/grades/888acb2c-d07c-4365-b31c-941d3c280075
+Authorization: Bearer {{jwtToken}}
 
 ###
 GET http://localhost:3000/grades
+Authorization: Bearer {{jwtToken}}
 
 ###
 GET http://localhost:3000/grades
+Authorization: Bearer {{jwtToken}}
 Content-Type: application/json
 
 [
@@ -199,6 +227,7 @@ Content-Type: application/json
 
 ###
 PATCH http://localhost:3000/grades
+Authorization: Bearer {{jwtToken}}
 Content-Type: application/json
 
 {
