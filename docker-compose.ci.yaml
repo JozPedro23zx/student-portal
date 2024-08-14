@@ -4,12 +4,12 @@ services:
   app:
     build: 
       context: .
-      dockerfile: Dockerfile.prod
+      dockerfile: Dockerfile.dev
     restart: on-failure
     ports:
       - 3000:3000
     volumes:
-      - .:/home/app
+      - ./envs:/home/node/app/envs
     depends_on:
       - db
 

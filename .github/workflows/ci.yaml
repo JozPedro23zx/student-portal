@@ -50,9 +50,9 @@ jobs:
           tags: jozpedro23/studentportal:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
+          load: true
           file: Dockerfile.prod
           target: development
-          load: true
 
       - name: Up Containers
         run: docker compose -f docker-compose.ci.yaml up -d
