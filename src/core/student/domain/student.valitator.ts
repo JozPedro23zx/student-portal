@@ -1,7 +1,8 @@
 import { ClassValidator } from "@core/@shared/validation/validate";
-import { IsNotEmpty, MaxDate, MaxLength, ValidationError } from "class-validator";
+import { IsDate, IsNotEmpty, MaxDate, MaxLength, ValidationError } from "class-validator";
 import { Student } from "./student.entity";
 import { NotificationErrorInterface } from "@core/@shared/validation/notification-interface";
+import { Transform } from "class-transformer";
 
 export class StudentDomainRules{
     @IsNotEmpty({groups: ['name']})
@@ -12,6 +13,8 @@ export class StudentDomainRules{
     @MaxLength(255)
     last_name: string;
 
+    // @Transform( ({ value }) => new Date(value))
+    // @IsDate()
     @MaxDate(minimalDate(), {groups: ['date']})
     date_of_birth: Date;
 

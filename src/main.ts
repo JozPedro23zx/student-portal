@@ -2,11 +2,12 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { DomainValidationFilter } from './modules/@shared/filters/domain-validation/domain-validation.filter';
-import { CustomNotFoundError } from '@core/@shared/erros/not-found.error';
 import { NotFoundFilter } from './modules/@shared/filters/not-found/not-found.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  app.enableCors();
   
   app.useGlobalPipes(
     new ValidationPipe({

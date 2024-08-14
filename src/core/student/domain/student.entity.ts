@@ -37,7 +37,7 @@ export class Student extends  BaseEntity{
     }
 
     changeBirthday(date: Date){
-        this.date_of_birth = date;
+        this.date_of_birth = new Date(date);
         this.validate(["date"])
     }
 

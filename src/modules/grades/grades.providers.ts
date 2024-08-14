@@ -1,6 +1,7 @@
 import { CreateGradeUsecase } from "@core/grade/application/create-grade/create-grade";
 import { DeleteGradeUsecase } from "@core/grade/application/delete-grade/delete-grade.usecase";
 import { FindAllGradesUsecase } from "@core/grade/application/find-grade/find-all-grade.usecase";
+import { FindGradeByStudentUsecase } from "@core/grade/application/find-grade/find-grade-by-student";
 import { FindGradeUsecase } from "@core/grade/application/find-grade/find-grade.usecase";
 import { UpdateGradeUsecase } from "@core/grade/application/update-grade/update-grade.usecase";
 import { IGradeRepository } from "@core/grade/infrastructure/grade.repository";
@@ -49,6 +50,13 @@ export const REPOSITORIES = {
       provide: FindAllGradesUsecase,
       useFactory: (gradeRepo: IGradeRepository) => {
         return new FindAllGradesUsecase(gradeRepo);
+      },
+      inject: [REPOSITORIES.Grade_Repository.provide],
+    },
+    Find_Grade_By_Student_Usecase: {
+      provide: FindGradeByStudentUsecase,
+      useFactory: (gradeRepo: IGradeRepository) => {
+        return new FindGradeByStudentUsecase(gradeRepo);
       },
       inject: [REPOSITORIES.Grade_Repository.provide],
     },

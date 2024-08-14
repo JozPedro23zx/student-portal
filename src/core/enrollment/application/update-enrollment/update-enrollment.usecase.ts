@@ -28,5 +28,6 @@ export class UpdateEnrollmentUsecase implements IUseCase<UpdateEnrollmentInput, 
 
 export type UpdateEnrollmentInput = {
     id: string,
+    class_id: string;
     status: string
 }

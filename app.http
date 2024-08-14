@@ -40,8 +40,16 @@ Authorization: Bearer {{jwtToken}}
 Content-Type: application/json
 
 {
-    "id": "a1790da6-e796-4157-a712-57af227bcc25",
-    "first_name": "Jon"
+    "id": "24054f57-5d50-4860-a015-c7f925162580",
+    "first_name": "David",
+    "last_name": "Stuart",
+    "date_of_birth": "1999-05-14T00:00:00.000Z",
+    "address": {    
+        "street": "Flower Street 2",
+        "number": 123,
+        "city": "Old York 2"
+    },
+    "phone_number": "12345-6789"
 }
 
 ###

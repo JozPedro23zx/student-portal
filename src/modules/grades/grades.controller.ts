@@ -9,6 +9,7 @@ import UpdateGradeInput from '@core/grade/application/update-grade/input-update-
 import { AdminGuard } from '../auth/admin.guard';
 import { AuthGuard } from '../auth/auth.guard';
 import { TeacherGuard } from '../auth/teacher.guard';
+import { FindGradeByStudentUsecase } from '@core/grade/application/find-grade/find-grade-by-student';
 
 @Controller('grades')
 export class GradesController {
@@ -27,6 +28,9 @@ export class GradesController {
   @Inject(DeleteGradeUsecase)
   private deleteUsecase: DeleteGradeUsecase;
 
+  @Inject(FindGradeByStudentUsecase)
+  private findByStudentUsecase: FindGradeByStudentUsecase;
+
   @UseGuards(AuthGuard, AdminGuard)
   @Post()
   async create(@Body() input: CreateGradeInput) {
@@ -43,6 +47,12 @@ export class GradesController {
   @Get(':id')
   async findOne(@Param('id') id: string) {
     return await this.findUsecase.execute({id: id});
+  }
+
+  @UseGuards(AuthGuard, TeacherGuard)
+  @Get('/student/:id')
+  async findByStudent(@Param('id') id: string) {
+    return await this.findByStudentUsecase.execute({id: id});
   }
 
   @UseGuards(AuthGuard, TeacherGuard)

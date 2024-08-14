@@ -105,7 +105,7 @@ describe('Student unit tests', ()=>{
             const date2 = new Date(2001, 11, 17)
             student.changeBirthday(date2);
     
-            expect(student.date_of_birth).toBe(date2);
+            expect(student.date_of_birth).toStrictEqual(date2);
             expect(Student.prototype.validate).toHaveBeenCalledTimes(1);
         })
     

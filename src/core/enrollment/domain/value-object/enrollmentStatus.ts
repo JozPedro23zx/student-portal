@@ -4,7 +4,7 @@ import { EntityValidationError } from "@core/@shared/erros/validate.error";
 export enum Status {
     ENROLLED = 'enrolled',
     COMPLETED = 'completed',
-    DROPPED = 'droped',
+    DROPPED = 'dropped',
 }
 
 export class EnrollmentStatus extends ValueObject{

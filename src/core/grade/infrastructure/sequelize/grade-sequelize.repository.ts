@@ -44,6 +44,12 @@ export class GradeSequelizeRepository implements IGradeRepository{
         return model ? GradeMapper.toEntity(model) : null;
     }
 
+    async findByStudent(uuid: Uuid): Promise<Grade[]> {
+        const models = await this.gradeModel.findAll({where: {student_id: uuid.id}});
+
+        return models.map((model) => GradeMapper.toEntity(model));
+    }
+
     async findByIds(uuids: Uuid[]): Promise<Grade[]> {
         const models = await this.gradeModel.findAll({
             where: {
