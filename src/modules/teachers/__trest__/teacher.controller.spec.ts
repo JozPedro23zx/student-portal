@@ -9,6 +9,8 @@ import { DeleteTeacherUsecase } from "@core/teacher/application/delete-teacher/d
 import { Test, TestingModule } from "@nestjs/testing";
 import { JwtService } from '@nestjs/jwt';
 import { AuthGuard } from 'src/modules/auth/auth.guard';
+import { ProducerService } from 'src/modules/rabbitmq/services/producer.service';
+import { TeacherOutput } from '@core/teacher/application/teacher-output';
 
 
 describe('Teachers controller unit test', () => {
@@ -18,6 +20,7 @@ describe('Teachers controller unit test', () => {
   let findAllUsecase: FindAllTeacherUsecase;
   let updateUsecase: UpdateTeacherUsecase;
   let deleteUsecase: DeleteTeacherUsecase;
+  let producerService: ProducerService;
 
   const mockAuthGuard = {
     canActivate: jest.fn(() => true),
@@ -28,6 +31,24 @@ describe('Teachers controller unit test', () => {
     login: jest.fn(),
   };
 
+  const mockProducerService = {
+    sendUserCreationMessage: jest.fn()
+  }
+
+  const teacherOutput: TeacherOutput = {
+    "id": "123",
+    "first_name": "Jon",
+    "last_name": "Silver",
+    "subject_specialization": ['math', 'science'],
+    "date_of_birth": new Date("1999-05-14"), 
+    "street": "Flower Street",
+    "number": 123,
+    "city": "Old York",
+    "phone_number": "12345-6789",
+    "createdAt": new Date(),
+    "updatedAt": new Date()
+  } 
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [TeachersController],
@@ -35,7 +56,7 @@ describe('Teachers controller unit test', () => {
         {
           provide: CreateTeacherUsecase,
           useValue: {
-            execute: jest.fn(),
+            execute: jest.fn().mockResolvedValue(teacherOutput),
           },
         },
         {
@@ -69,6 +90,10 @@ describe('Teachers controller unit test', () => {
         {
           provide: JwtService,
           useValue: mockAuthService,
+        },
+        {
+          provide: ProducerService,
+          useValue: mockProducerService,
         },
       ],
     }).compile();

@@ -39,7 +39,7 @@ export const CONFIG_DB_SCHEMA: Joi.StrictSchemaMap<DB_SCHEMA_TYPE> = {
   DB_AUTO_LOAD_MODELS: Joi.boolean().required(),
 };
 
-type CONFIG_JWT_SCHEMA_TYPE = {
+export type CONFIG_JWT_SCHEMA_TYPE = {
   JWT_PUBLIC_KEY: string;
   JWT_PRIVATE_KEY: string;
 };
@@ -48,6 +48,14 @@ export const CONFIG_JWT_SCHEMA: Joi.StrictSchemaMap<CONFIG_JWT_SCHEMA_TYPE> = {
   JWT_PUBLIC_KEY: Joi.string().required(),
   JWT_PRIVATE_KEY: Joi.string().optional(),
 };
+
+type CONFIG_RABBITMQ_SCHEMA_TYPE = {
+  RABBITMQ_URL: string;
+}
+
+export const CONFIG_RABBITMQ_SCHEMA: Joi.StrictSchemaMap<CONFIG_RABBITMQ_SCHEMA_TYPE> = {
+  RABBITMQ_URL: Joi.string().required()
+}
 
 @Module({})
 export class MyConfigModule extends ConfigModule {
@@ -61,7 +69,7 @@ export class MyConfigModule extends ConfigModule {
     return super.forRoot({
       isGlobal: true,
       envFilePath: [envFilePath],
-      validationSchema: Joi.object({ ...CONFIG_DB_SCHEMA, ...CONFIG_JWT_SCHEMA })
+      validationSchema: Joi.object({ ...CONFIG_DB_SCHEMA, ...CONFIG_JWT_SCHEMA, ...CONFIG_RABBITMQ_SCHEMA })
     })
   }
 }

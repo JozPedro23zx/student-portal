@@ -9,6 +9,8 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Inject, UseGuards } 
 import { AdminGuard } from '../auth/admin.guard';
 import { AuthGuard } from '../auth/auth.guard';
 import { TeacherGuard } from '../auth/teacher.guard';
+import { ProducerService } from '../rabbitmq/services/producer.service';
+import { OutputToUser } from '../@shared/rabbitmq/keycloak-user.interface';
 
 @Controller('teachers')
 export class TeachersController {
@@ -27,10 +29,16 @@ export class TeachersController {
   @Inject(DeleteTeacherUsecase)
   private deleteUsecase: DeleteTeacherUsecase;
 
+  @Inject(ProducerService)
+  private producerService: ProducerService;
+
   @UseGuards(AuthGuard, AdminGuard)
   @Post()
   async create(@Body() createTeacherDto: CreateTeacherInput) {
-    return await this.createUsecase.execute(createTeacherDto)
+    const output = await this.createUsecase.execute(createTeacherDto)
+    const user = OutputToUser(output, "teacher")
+    this.producerService.sendUserCreationMessage(user)
+    return output
   }
 
   @UseGuards(AuthGuard, TeacherGuard)
